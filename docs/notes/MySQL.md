@@ -104,7 +104,7 @@ WHERE
 ```
 
 
-* [参考资料](https://blog.csdn.net/chenmozhe22/article/details/83243587#3exist_129)
+* [参考资料](https://blog.csdn.net/chenmozhe22/article/details/83243587)
 
 + 补充：可以使用EXPLAIN查看sql执行计划，只需将该关键字放在sql前即可。
 

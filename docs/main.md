@@ -22,7 +22,7 @@
 ?> [Java I/O](notes/JavaIO.md)
 
 ## 🖥  服务器
-?> [Nginx 服务器](notes/Nginx.md)
+?> [Nginx 服务器](notes/nginx.md)
 
 ## 🛠  工具
 ?> [Git](notes/Git.md)

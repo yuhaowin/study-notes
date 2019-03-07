@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="48185d33-266c-4ac3-9c4c-44dbe39aa278" name="Default Changelist" comment="添加插件">
+    <list default="true" id="48185d33-266c-4ac3-9c4c-44dbe39aa278" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -20,19 +20,19 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/docs/index.md">
+        <entry file="file://$PROJECT_DIR$/docs/main.md">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-41">
-              <caret line="3" column="26" selection-start-line="3" selection-end-line="3" selection-end-column="26" />
+            <state relative-caret-position="282">
+              <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/notes/Java基础.md">
+        <entry file="file://$PROJECT_DIR$/docs/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <caret column="9" selection-start-column="9" selection-end-column="9" />
+            <state relative-caret-position="358">
+              <caret line="59" column="53" selection-start-line="59" selection-start-column="53" selection-end-line="59" selection-end-column="53" />
             </state>
           </provider>
         </entry>
@@ -47,7 +47,7 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/docs/notes/Nginx.md">
+        <entry file="file://$PROJECT_DIR$/docs/notes/nginx.md">
           <provider selected="true" editor-type-id="text-editor">
             <state>
               <caret column="9" selection-start-column="9" selection-end-column="9" />
@@ -107,8 +107,6 @@
       <list>
         <option value="$PROJECT_DIR$/docs/notes/设计模式.md" />
         <option value="$PROJECT_DIR$/docs/coverpage.md" />
-        <option value="$PROJECT_DIR$/docs/index.html" />
-        <option value="$PROJECT_DIR$/docs/index.md" />
         <option value="$PROJECT_DIR$/docs/notes/Git.md" />
         <option value="$PROJECT_DIR$/docs/notes/JavaIO.md" />
         <option value="$PROJECT_DIR$/docs/notes/Java基础.md" />
@@ -117,6 +115,9 @@
         <option value="$PROJECT_DIR$/docs/notes/Redis.md" />
         <option value="$PROJECT_DIR$/docs/notes/面向对象思想.md" />
         <option value="$PROJECT_DIR$/docs/notes/途牛面试.md" />
+        <option value="$PROJECT_DIR$/docs/index.md" />
+        <option value="$PROJECT_DIR$/docs/index.html" />
+        <option value="$PROJECT_DIR$/docs/main.md" />
       </list>
     </option>
   </component>
@@ -199,7 +200,7 @@
       <workItem from="1551426294309" duration="783000" />
       <workItem from="1551875016512" duration="5701000" />
       <workItem from="1551965525998" duration="1397000" />
-      <workItem from="1551980742371" duration="819000" />
+      <workItem from="1551980742371" duration="1265000" />
     </task>
     <task id="LOCAL-00001" summary="更改目录">
       <created>1551426535899</created>
@@ -250,11 +251,25 @@
       <option name="project" value="LOCAL" />
       <updated>1551885094245</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="添加插件">
+      <created>1551981778214</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1551981778214</updated>
+    </task>
+    <task id="LOCAL-00009" summary="添加插件">
+      <created>1551981876684</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1551981876684</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8700000" />
+    <option name="totallyTimeSpent" value="9146000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="952" extended-state="0" />
@@ -324,13 +339,6 @@
     <entry file="file://$PROJECT_DIR$/docs/article/vue/vue学习-第8章.md">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="388">
-          <caret line="26" column="18" selection-start-line="26" selection-start-column="18" selection-end-line="26" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/docs/notes/Git.md">
       <provider selected="true" editor-type-id="text-editor">
         <state>
@@ -389,17 +397,24 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/notes/Nginx.md">
+    <entry file="file://$PROJECT_DIR$/docs/notes/nginx.md">
       <provider selected="true" editor-type-id="text-editor">
         <state>
           <caret column="9" selection-start-column="9" selection-end-column="9" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.md">
+    <entry file="file://$PROJECT_DIR$/docs/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-41">
-          <caret line="3" column="26" selection-start-line="3" selection-end-line="3" selection-end-column="26" />
+        <state relative-caret-position="358">
+          <caret line="59" column="53" selection-start-line="59" selection-start-column="53" selection-end-line="59" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/main.md">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="282">
+          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
         </state>
       </provider>
     </entry>

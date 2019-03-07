@@ -49,3 +49,95 @@ rm -rf /data/mysql/webapp/user.ibd.hdlk
 
 
 + [参考链接](https://www.jb51.net/article/145889.htm)
+
+
+#### MySQL 查询优化--查询 A 表中某字段在 B 表中不存在的所有记录
+
+> 背景：业务需要查询 A(user_all) 表中的 openid 不在 B(user) 表中的所有的记录。其中 A 表 954万； B 表373万。
+
+完成查询有以下4中方案：
+
++  not in
+
+```sql
+SELECT
+	a.openid 
+FROM
+	user_all a 
+WHERE
+	a.openid NOT IN ( SELECT b.openid FROM `user` b );
+```
+
++ where中使用count
+
+```sql
+SELECT
+	a.openid 
+FROM
+	user_all AS a 
+WHERE
+	( SELECT COUNT( * ) AS num FROM `user` AS b WHERE a.openid = b.openid ) = 0
+```
+
++ 使用left join
+
+```sql
+SELECT
+	a.openid
+FROM
+	user_all a
+	LEFT JOIN `user` b ON a.openid = b.openid
+WHERE
+	b.openid IS NULL;
+```	
+
+
++ 使用not exist判断
+
+```sql
+SELECT
+	a.openid 
+FROM
+	user_all a 
+WHERE
+	NOT EXISTS ( SELECT * FROM `user` b WHERE a.openid = b.openid );
+```
+
+
+* [参考资料](https://blog.csdn.net/chenmozhe22/article/details/83243587#3exist_129)
+
++ 补充：可以使用EXPLAIN查看sql执行计划，只需将该关键字放在sql前即可。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

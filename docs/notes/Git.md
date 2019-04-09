@@ -61,6 +61,12 @@ git branch -v  查看有多少个分支  git branch -av  -a参数是查看远程
 
 git checkout -b temp 36cc4b4976be439910  基于默认提交版本创建一个分支
 
+git 删除本地分支
+git branch -d <BranchName>。-D 表示强制删除
+
+git 删除远程分支
+git push origin –-delete <BranchName>
+
 
 !> git reset --hard  将暂存区中修改的记录全部还原
 
@@ -79,10 +85,58 @@ git中的对象分为 commit  tree  blob
 任何文件的内容相同（即使文件名不同）也是同一个blob
 
 
-
-
-
 将以往多个commit 合并成一个commit：
+
+
+******
+
+gitf 分支的合并
+
+1、主干合并分支
+
+进入分支，更新分支代码
+
+（branch）git pull
+
+切换主干
+
+（branch）git checkout master
+
+在主干上合并分支branch
+
+（master）git merge branch --squash
+
+提交合并后的代码
+
+（master）git commit -m ‘合并备注’
+
+将代码推送到远程仓库
+
+（master）git push
+
+2、分支合并主干
+
+进入主干，更新主干代码
+
+（master）git pull
+
+切换分支
+
+（master）git checkout branch
+
+在分支上合并主干
+
+（branch）git merge master --squash
+
+提交合并后的代码
+
+（branch）git commit -m ‘合并备注’
+
+将代码推送到远程仓库
+
+（branch）git push
+
+[git合并参考资料](https://www.jianshu.com/p/684a8ae9dcf1)
 
 
 

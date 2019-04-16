@@ -1,46 +1,65 @@
-?> 更新ing。。。
+?> 持续更新ing。。。
 
-配置信息 local的优先级大于global
+git confing 文件有3个作用域
+
+--local 对某一个仓库有效 （常用）
+
+--system 对系统所有登陆用户有效（不用）
+
+--global 对系统当前登陆用户有效（常用）
+
+优先级 local > global > system
 
 git config --global user.name ' '
 
 git config --global user.email ' '
 
-
 查看配置
 
 git config --list --global
 
-新建项目 加入 git管理
+****
 
-在项目文件夹内执行 git init
+新建Git仓库
 
-或者 git init 项目名  会创建一个新的项目
++ 将已经存在项目加入git管理：在项目文件夹内执行 git init
++ 新建项目并加入git管理：git init 项目名  会创建一个新的项目
 
-git add  可以添加多个文件  用空格分割
-
-git status 查看状态
-
-
-git add -u  是将已经被git管理 但是发生了修改的 一起提交到暂存区
-
+****
+git的工作区和暂存区
 
 git  工作流程：修改多个文件 添加到暂存区 再一次提交
 
+在工作区修改的内容，先添加到暂存区，确定修改内容后才提交到版本历史中。
 
-直接在工作区修改了文件名：在git中的表现是删除了老的文件又新增的新的文件，可以通过git status 可以看到
+暂存区具有承上启下的作用：
+如果修改的内容合适，可以进一步变成一个正式的commit，如果内容不好，可以回退到未修改的工作区。
 
-在暂存区直接删除文件  git rm 文件名
+git add  可以添加多个文件/文件夹  用空格分割
+
+git status 查看状态
+
+git add -u  是将已经被git管理 但是发生了修改的 一起提交到暂存区
+u = update
 
 *******
 
 git 重命名文件
+
+直接在工作区修改了文件名：在git中的表现是删除了老的文件又新增的新的文件，可以通过git status 可以看到
+在暂存区直接删除文件  git rm 文件名
 
 + 重命名步骤  工作区中文件重命名 ->  add新文件  -> rm旧文件
 
 + git mv 旧文件 新文件  可以直接代替上面3个步骤
 
 *******
+
+如果不想要暂存区中的修改了
+
+git reset --hard
+
+******
 
 查看版本树变化过程
 
@@ -137,6 +156,9 @@ gitf 分支的合并
 （branch）git push
 
 [git合并参考资料](https://www.jianshu.com/p/684a8ae9dcf1)
+
+
+接下来 视频 07
 
 
 

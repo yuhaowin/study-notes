@@ -55,15 +55,20 @@ git 重命名文件
 
 *******
 
-如果不想要暂存区中的修改了
+如果不想要暂存区中的修改了，将暂存区中修改的记录全部还原
 
-git reset --hard
+git reset --hard 
+
+git reset HEAD 的区别
+
 
 ******
 
 查看版本树变化过程
 
 git log  只查看当前分支的所有commit
+
+git log 分支名 查看某个分支的commit
 
 git log --all 查看所有分支的commit
 
@@ -86,11 +91,6 @@ git branch -d <BranchName>。-D 表示强制删除
 git 删除远程分支
 git push origin –-delete <BranchName>
 
-
-!> git reset --hard  将暂存区中修改的记录全部还原
-
-git reset HEAD 的区别
-
 *********
 
 .git 内部
@@ -98,6 +98,18 @@ git reset HEAD 的区别
 ![](https://ws1.sinaimg.cn/large/006tKfTcgy1g10f5fv859j30wi0qe44p.jpg)
 
 git中的对象分为 commit  tree  blob
+
+文件 HEAD 存放的是当前工作分支的引用，切换分支，HEAD内容也会变化。
+
+文件 config 存放和该仓库相关的配置文件，只对本仓库生效，是优先级最高的配置。
+
+文件夹 refs 存放里 heads（所有的分支）tags（所有的标签）
+
+文件夹 objects 存放该仓库所有的对象
+
+todo
+
+[git diff](https://www.jianshu.com/p/80542dc3164e)
 
 ?> commit  tree  blob 三者之间的关系
 
@@ -158,7 +170,7 @@ gitf 分支的合并
 [git合并参考资料](https://www.jianshu.com/p/684a8ae9dcf1)
 
 
-接下来 视频 07
+接下来 视频 10
 
 
 

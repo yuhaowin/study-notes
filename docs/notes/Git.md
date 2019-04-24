@@ -83,7 +83,25 @@ git --help --web log  网页查看log命令的帮助文档
 
 git branch -v  查看有多少个分支  git branch -av  -a参数是查看远程分支
 
-git checkout -b temp 36cc4b4976be439910  基于默认提交版本创建一个分支
+git 创建分支时强烈建议本地分支和远端分支名称一致。
+
+git创建的本地分支和远端分支关联的两种方法：
+
++ 本地分支dev和远端分支dev建立关联关系。
+
+ `git branch --set-upstream-to=origin/dev dev`
+ 
++ 推送当前分支dev到远端并建立与远程分支dev的跟踪
+
+ `git push --set-upstream origin dev`
+ 
+ 建议使用一下命令创建本地和远端关联的分支：
+ 
+ 基于远端分支dev的最新提交创建一个本地分支dev，并将本地分支和远端分支建立关联关系。
+ 
+ `git checkout -b dev origin/dev`
+
+git checkout -b temp 36cc4b4976be439910  基于本地某个提交版本创建一个分支
 
 git 删除本地分支
 git branch -d <BranchName>。-D 表示强制删除
@@ -173,7 +191,13 @@ gitf 分支的合并
 接下来 视频 10
 
 
+gitlab:
 
+https://www.jianshu.com/p/b04356e014fa
+
+https://blog.csdn.net/Z_Flank/article/details/80807458
+
+https://blog.csdn.net/wq3028/article/details/81736486
 
 
 

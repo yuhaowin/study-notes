@@ -57,9 +57,9 @@ git 重命名文件
 
 如果不想要暂存区中的修改了，将暂存区中修改的记录全部还原
 
-git reset --hard 
+git reset --hard  回退到某个commit 工作区和暂存区都和这个commit一致
 
-git reset HEAD 的区别
+git reset HEAD 的区别 取消暂存区的所有内容 保持暂存区和当前最新提交是一致的。
 
 
 ******
@@ -188,7 +188,84 @@ gitf 分支的合并
 [git合并参考资料](https://www.jianshu.com/p/684a8ae9dcf1)
 
 
-接下来 视频 10
+******
+
+分离头指针
+
+意思是当前的变更没有和任何一个分支关联，
+
+分离头指针的常常用于做一个尝试性的工作，并没有为改修改创建一个分支，随时准备丢弃掉
+
+创建一个分离头指针的情况：
+
+git checkout 544546
+
+如果在544546这个提交基础上做了很多的修改，发现这些修改是有用的，可以通过为该commitid 创建分支的方法保留变更记录
+
+git branch <新分支名> 544546
+
+*****
+
+修改最新提交commit的message
+
+git commit --amend
+
+
+*******
+
+修改以前的commit的message（在本地完成，防止影响远端代码库）
+
+git rebase -i 修改的commit的前一个commit
+
+然后现在reword这种策略
+
+
+*****
+
+本地将多个commit合并成一个commit
+
+然后现在squash这种策略
+
+******
+
+本地当前分支和暂存区内容比较
+
+git diff --cached
+
+*****
+
+工作区和暂存区的内容比较
+
+git diff
+
+*****
+
+比较两个commit之间的不同
+
+git diff temp master -- <具体的文件>
+
+****
+
+取消暂存区内容修改
+
+git reset HEAD
+
+*****
+
+取消工作区内容修改
+
+git checkout <文件名>
+
+
+git stash 
+
+git stash list
+
+git stash pop
+
+
+
+接下来 视频 34
 
 
 gitlab:

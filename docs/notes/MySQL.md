@@ -110,11 +110,53 @@ WHERE
 
 
 
+#### mysql更新数据库的两段提交
+
+查看mysql 是否开启binlog
+
+`show variables like '%log_bin%'`
+
+mysql 数据库引擎InnoDB再做update时会在数据库引擎层面写入redolog。redolog的作用是，只要数据写入给文件，即使数据库异常重启，仍然可以恢复数据状态。如果开启了binlog，一条更新语句的执行流程如下：
+
+![](https://static001.geekbang.org/resource/image/2e/be/2e5bff4910ec189fe1ee6e2ecc7b4bbe.png)
+
+其中redolog的写入是一个两段提交的过程，保证的是在数据库发生异常重启后的数据状态和通过binlog恢复的数据状态是一致的。
+
+重点说一下一下三个阶段
+
+1. prepare阶段 
+2. 写binlog
+3. 3 commit
+
+当在2之前崩溃时
+
+重启恢复：后发现没有commit，回滚。备份恢复：没有binlog 。
+一致
+
+当在3之前崩溃
+
+重启恢复：虽没有commit，但满足prepare和binlog完整，所以重启后会自动commit。备份：有binlog. 一致
 
 
+补充：两阶段提交和三阶段提交
 
+1. 两阶段提交：
 
+	+ 准备阶段
+	+ 提交阶段
 
+2. 三阶段提交
+
+	+ CanCommit
+	+ PreCommit
+	+ do Commit
+	
++ [参考资料1](http://blog.itpub.net/15498/viewspace-2640723/)
++ [参考资料2](https://www.kancloud.cn/sql-jdxia/mysql/513206)
+
+#### 数据库的索引
+
+> 索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。索引是一个文件，是实实在在存在的数据。
 
 
 

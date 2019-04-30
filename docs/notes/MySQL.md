@@ -267,11 +267,14 @@ from User;
 
 对于有些字符串，可能前面很多位都是一样的，变化较大的在字符串的尾部，此时也可以考虑:
 
-1. 将字符串倒过来存放，然后在使用前缀索引的方式
-`select field_list from t where id_card = reverse('input_id_card_string');
+1. 将字符串倒过来存放，然后在使用前缀索引的方式。
+
+	`select field_list from t where id_card = reverse('input_id_card_string');
 `
+
 2. 使用 hash 字段。你可以在表上再创建一个整数字段，来保存身份证的校验码，同时在这个字段上创建索引。然后每次插入新记录的时候，都同时用 crc32() 这个函数得到校验码填到这个新字段。由于校验码可能存在冲突，也就是说两个不同的身份证号通过 crc32() 函数得到的结果可能是相同的，所以你的查询语句 where 部分要判断 id_card 的值是否精确相同。
-`select field_list from t where id_card_crc=crc32('input_id_card_string') and id_card='input_id_card_string'
+
+	`select field_list from t where id_card_crc=crc32('input_id_card_string') and id_card='input_id_card_string'
 `
 
 

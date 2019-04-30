@@ -158,6 +158,13 @@ mysql 数据库引擎InnoDB再做update时会在数据库引擎层面写入redol
 
 > 索引的出现其实就是为了提高数据查询的效率，就像书的目录一样。索引是一个文件，是实实在在存在的数据。
 
+索引的分类：
+
++ 主键索引，主键索引的叶子节点存的是整行数据。在 InnoDB 里，主键索引也被称为聚簇索引（clustered index）。
++ 非主键索引，非主键索引的叶子节点内容是主键的值。在 InnoDB 里，非主键索引也被称为二级索引（secondary index）。
+
+基于主键索引的查询和非主键索引查询的区别是：主键索引查询，只需要查询id索引树，非主键索引需要先检索非主键索引树，拿到对应的id值，在检索id索引树。
+
 假设：
 
 ```sql
@@ -221,16 +228,51 @@ sql `select * from tuser where name like '张 %' and age=10 and ismale=1;
 查询语句的where里面各个判断调换顺序没关系的，优化器会自动做优化。
 
 
+##### 给字符串加索引
+
+假设表如下：
+
+```sql
+create table User(
+ID bigint unsigned primary key,
+email varchar(64), 
+... 
+)engine=innodb; 
+```
+
+需要为email建立索引
+
++ 全字段索引 `alter table SUser add index index1(email);`
++ 前缀索引 `alter table SUser add index index2(email(6));`
+
+1、全字段索引占用空间大，前缀索引占用空间小；
+2、全字段索引查询效率高，前缀索引则会增加额外的记录扫描次数。
+
+还需要注意的是：如果查询字段如果只有id和索引字段时，使用全字段索引是无需回表的，但如果是前缀索引必须进行回表动作。也就是说，使用了前缀索引后，无法使用到覆盖索引带来的优化了。
 
 
+如果使用前缀索引，就需要合理的确定前缀索引的长度，长度越长索引的区分度越好，但是占用的空间也越大；相反，长度越短占用的空间越小，但是索引的区分度就越差，这是个平衡的过程。
+
+可以在建前缀索引前看看不同长度的索引的区分度如何：
+
+```sql
+select
+count(distinct left(email,4)）as L4,
+count(distinct left(email,5)）as L5,
+count(distinct left(email,6)）as L6,
+count(distinct left(email,7)）as L7
+from User;
+```
 
 
+对于有些字符串，可能前面很多位都是一样的，变化较大的在字符串的尾部，此时也可以考虑:
 
-
-
-
-
-
+1. 将字符串倒过来存放，然后在使用前缀索引的方式
+`select field_list from t where id_card = reverse('input_id_card_string');
+`
+2. 使用 hash 字段。你可以在表上再创建一个整数字段，来保存身份证的校验码，同时在这个字段上创建索引。然后每次插入新记录的时候，都同时用 crc32() 这个函数得到校验码填到这个新字段。由于校验码可能存在冲突，也就是说两个不同的身份证号通过 crc32() 函数得到的结果可能是相同的，所以你的查询语句 where 部分要判断 id_card 的值是否精确相同。
+`select field_list from t where id_card_crc=crc32('input_id_card_string') and id_card='input_id_card_string'
+`
 
 
 

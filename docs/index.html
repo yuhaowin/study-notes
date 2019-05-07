@@ -41,18 +41,14 @@
             successText: '复制成功'
         },
 
-        search: 'auto', // 默认值
-        search: [
-            '/'           // => /README.md
-        ],
-        // 完整配置参数
+        // 搜索配置参数
         search: {
             maxAge: 86400000, // 过期时间，单位毫秒，默认一天
-            paths: [], // or 'auto'
+            paths: ['/main.md'], // or 'auto'
             placeholder: '搜索',
             noData: '无结果!',
             // 搜索标题的最大程级, 1 - 6
-            depth: 2
+            depth: 3
         }
     }
 </script>

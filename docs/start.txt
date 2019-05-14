@@ -2,3 +2,6 @@
 执行一下命令启动本地环境
 
 docsify serve docs
+
+docsify serve ../docs
+

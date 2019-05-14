@@ -118,7 +118,9 @@ WHERE
 
 mysql 数据库引擎InnoDB再做update时会在数据库引擎层面写入redolog。redolog的作用是，只要数据写入给文件，即使数据库异常重启，仍然可以恢复数据状态。如果开启了binlog，一条更新语句的执行流程如下：
 
-![](https://static001.geekbang.org/resource/image/2e/be/2e5bff4910ec189fe1ee6e2ecc7b4bbe.png)
+<div style="text-align: center">
+<img src="https://static001.geekbang.org/resource/image/2e/be/2e5bff4910ec189fe1ee6e2ecc7b4bbe.png" width="50%">
+</div>
 
 其中redolog的写入是一个两段提交的过程，保证的是在数据库发生异常重启后的数据状态和通过binlog恢复的数据状态是一致的。
 
@@ -220,7 +222,7 @@ sql `select * from tuser where name like '张 %' and age=10 and ismale=1;
 
 该sql执行步骤：
 
-1. 更加最左前缀原则，可以‘张%’可以使用上联合索引(name,age),找到第一个满足条件的记录
+1. 根据最左前缀原则，可以‘张%’可以使用上联合索引(name,age),找到第一个满足条件的记录
 2. 在 MySQL 5.6 之前，只能从这条记录开始开始一个个回表，到主键索引上找出数据行，再对比字段的值；而 MySQL 5.6 引入的索引下推优化可以在索引遍历过程中，对索引中包含的字段先做判断，直接过滤掉不满足条件的记录，减少回表次数。
 
 即先找出所有姓张的，然后在索引内部判断age是否等于10，不等于10的直接跳过，只有满足等于 age = 10 的才进行回表取数据判断。
@@ -279,13 +281,121 @@ from User;
 
 
 
+#### 一些逻辑相同，性能却差异巨大的SQL语句
+
+1. 涉及到条件字段函数操作
+2. 涉及到隐式类型转换
+3. 涉及到隐式字符编码转换
+
+例如下面sql：
+
+`select count(*) from tradelog where month(t_modified)=7;
+`
+
+假设 t_modified 字段建有索引，以下sql对 t_modified 字段进行函数运算，会导致优化器放弃该索引的搜索功能，转而选择遍历这个索引。因为 **对索引字段做函数操作，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能。**
 
 
+`select * from tradelog where tradeid=110717;
+`
+
+假设 tradeid 字段的类型为 varchar 类型，而传入的参数是整数类型，就涉及到了类型的转化。在我本地数据库数据转化的规则是将字符串转换为数字。所以以上的sql在优化器看来就是：
+`select * from tradelog where  CAST(tradid AS signed int) = 110717;` 这就涉及到了对字段进行函数运算，进而进行全索引扫描。
+
+对于sql `select * from tradelog where id="83126";` id 是int类型，传入的参数是字符串类型，所以也会进行类型的转化，但是这个转化的过程是发生在 "83126" 这个参数上的，而不是发生在 id 这个字段上的，因此优化器依然会使用id对应索引的快速定位功能，不会导致全索引扫描。
+
+> 补充：验证mysql数据类型转换的规则是什么?<br>
+>  这里有一个简单的方法，看 select "10" > 9 的结果<br>
+> 1. 如果规则是“将字符串转成数字”，那么就是做数字比较，结果应该是1；<br>
+> 2. 如果规则是“将数字转成字符串”，那么就是做字符串比较，结果应该是0；
 
 
+在联表查询时两张表的字符编码不同会导致需要进行字符编码的转化，进而有可能会导致优化器放弃索引的快速定位功能。
+
+`select d.* from tradelog l, trade_detail d where d.tradeid=l.tradeid and l.id=2;`
+
+为了更好的阐述这个例子，建立两张表如下：
+
+```sql
+  CREATE TABLE `tradelog` (
+  `id` int(11) NOT NULL,
+  `tradeid` varchar(32) DEFAULT NULL,
+  `operator` int(11) DEFAULT NULL,
+  `t_modified` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `tradeid` (`tradeid`),
+  KEY `t_modified` (`t_modified`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+```sql
+  CREATE TABLE `trade_detail` (
+  `id` int(11) NOT NULL,
+  `tradeid` varchar(32) DEFAULT NULL,
+  `trade_step` int(11) DEFAULT NULL, /* 操作步骤 */
+  `step_info` varchar(32) DEFAULT NULL, /* 步骤信息 */
+  PRIMARY KEY (`id`),
+  KEY `tradeid` (`tradeid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+```
+
+```sql
+/* 添加 tradelog 记录 */
+insert into tradelog values(1, 'aaaaaaaa', 1000, now());
+insert into tradelog values(2, 'aaaaaaab', 1000, now());
+insert into tradelog values(3, 'aaaaaaac', 1000, now());
+
+/* 添加 trade_detail 记录 */
+insert into trade_detail values(1, 'aaaaaaaa', 1, 'add');
+insert into trade_detail values(2, 'aaaaaaaa', 2, 'update');
+insert into trade_detail values(3, 'aaaaaaaa', 3, 'commit');
+insert into trade_detail values(4, 'aaaaaaab', 1, 'add');
+insert into trade_detail values(5, 'aaaaaaab', 2, 'update');
+insert into trade_detail values(6, 'aaaaaaab', 3, 'update again');
+insert into trade_detail values(7, 'aaaaaaab', 4, 'commit');
+insert into trade_detail values(8, 'aaaaaaac', 1, 'add');
+insert into trade_detail values(9, 'aaaaaaac', 2, 'update');
+insert into trade_detail values(10, 'aaaaaaac', 3, 'update again');
+insert into trade_detail values(11, 'aaaaaaac', 4, 'commit');
+```
+
+关联 sql 的执行计划如下图
+
+![explain计划](https://ws4.sinaimg.cn/large/006tNc79gy1g2znqze8fkj316k0bctdq.jpg)
+
+第一行显示优化器会先在交易记录表 tradelog 上查到id = 2 的记录 在这个过程中用上了主键索引，rows 表示只扫描了一行。
+
+第二行key=NULL，表示没有用上交易详情表 trade_detail 上的 tradeid 字段的索引，进而进行了全表的扫描。
+
+> 补充：在这个执行计划里，是从 tradelog 表中取 tradeid 字段，再去 trade_detail 表里查询匹配字段。因此，我们把 tradelog 称为驱动表，把 trade_detail 称为被驱动表，把 tradeid 称为关联字段。
 
 
+在将 tradeid 字段拿到 trade_detail 表里查询匹配字段时没有用上 trade_detail 表中 tradeid 字段的索引是在意料之外的。表面上的原因是在建表时这两张表的字符编码是不同的，其根本原因依然是条件字段进行了转化编码的函数运算导致优化器放弃了索引的快速定位功能，而选择了全索引扫描导致。
 
+语句变成了
+`select * from trade_detail  where CONVERT(traideid USING utf8mb4)=$L2.tradeid.value; `
+
+当我两个表的 tradeid 字符编码都改成 utf8mb4 时再次查看执行计划：
+
+![](https://ws2.sinaimg.cn/large/006tNc79gy1g2zoxufx05j31480b0jw9.jpg)
+
+
+以上三种情况都是因为 **对索引字段做函数运算，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能，选择全索引的扫描。**
+
+> 补充：如何选择驱动表和被驱动表
+> 假设a表有100w记录，b表有10000w记录，两张表做关联查询时，是将a表放前面效率高，还是b表放前面效率高？<br><br>
+> 如果是考察语句写法，这两个表谁放前面都一样，优化器会调整顺序选择合适的驱动表；<br>
+> 如果是考察优化器怎么实现的，你可以这么想，每次在树搜索里面做一次查找都是log(n), 所以对比的100*log(10000)和 10000*log(100)哪个小，显然是前者，所以结论应该是让小表驱动大表。
+
+
+#### 关于 JOIN 的使用
+
+1. 使用 join 有哪些问题？
+2. 两个数据量不同的表，应该怎么选择驱动表？
+
+> 补充：<br>
+> 1. Index Nested-Loop Join <br>
+> 2. Simple Nested-Loop Join <br>
+> 3. Block Nested-Loop Join
 
 
 

@@ -472,9 +472,9 @@ join_buffer 的大小是由参数 join_buffe_size 设定的，默认值是 256k�
 
 取满一个 join_buffe_size 大小的驱动表数据，然后依次取被驱动表的数据，进行判断，符合加入结果集。然后清空join_buffer_size后，再取一个 join_buffe_size 大小的驱动表数据，再依次取被驱动表的数据... 直到驱动表的数据取完。
 
-驱动表数据 N ，被驱动表数据 M ，需要分K个join_buffe_size，其中N越大K越大，K=λ*N    λ为(0,1)
+驱动表数据 N ，被驱动表数据 M ，需要分K个join_buffe_size，其中N越大K越大，K = λ * N  其中λ为(0,1)
 
-则需要扫描的行数为：N + (λ*N)*M
+则需要扫描的行数为：N + (λ * N) * M
 内存判断为：N*M次
 
 所以小表应该是驱动表。

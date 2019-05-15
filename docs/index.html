@@ -8,8 +8,11 @@
     <meta name="description" content="Description">
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+    <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css" title="vue">
+    <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/dark.css" title="dark" disabled>
     <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+
+    <!-- 修改默认样式 -->
     <style type="text/css">
         a {
             text-decoration:none;
@@ -20,12 +23,21 @@
         img {
         	border-radius: 6px;
         }
+        .markdown-section p.warn {
+        	border-radius: 5px !important;
+        }
     </style>
 </head>
 <body>
+
+<!-- 自定义导航栏 -->
 <nav>
     <a href="#/">首页</a>
+	<a class="theme-preview" data-theme="vue">浅色</a>
+	<a class="theme-preview" data-theme="dark">深色</a>
 </nav>
+
+
 <div id="app">加载中...</div>
 <script>
     window.$docsify = {
@@ -33,6 +45,7 @@
         repo: 'https://github.com/yuhaowin',
         // 配置顶部导航栏
         // loadNavbar: 'navbar.md',
+        // 侧边栏
         // loadSidebar: 'summary.md',
         coverpage: 'coverpage.md',
         maxLevel: 5,
@@ -63,22 +76,41 @@
 <script src="//unpkg.com/prismjs/components/prism-sql.min.js"></script>
 <script src="//unpkg.com/docsify-copy-code"></script>
 <script type="text/javascript">
- 	// $(function(){
- 	// 	window.setTimeout(test,5000);
- 	// });
- 	function test (){
+ 	function forward (){
  		$('.warn').click(function(){
   			window.location.href=$(this).find("a").attr("href")
 		})  
  	}
  	window.onload = function () {
- 		test ()
+ 		forward ()
  	}
 
-window.addEventListener("popstate", function(){
-        console.log('小敏哥很帅！！！');
-        //window.location.reload();
-    }, false);
+    // 更换主题
+	var btns = document.querySelectorAll('.theme-preview')
+    var themes = document.querySelectorAll('[rel="stylesheet"]');
+    var curdate = new Date();
+    var curhour = curdate.getHours();
+
+    // 当前时间大于晚上6点启用深色模式
+    if (curhour > 18) {
+    	var title = 'dark';
+    	themes.forEach(function (theme) {
+        	var flag = (theme.title !== title);
+            theme.disabled = flag;
+        });
+    }
+
+    // 手动更改主题
+    btns.forEach(function (btn){
+    	btn.onclick = function (e) {
+        	var title = e.target.getAttribute('data-theme')
+        	themes.forEach(function (theme) {
+        		var flag = (theme.title !== title);
+            	theme.disabled = flag;
+        	});
+    	};
+    })
+
 </script>
 </body>
 </html>

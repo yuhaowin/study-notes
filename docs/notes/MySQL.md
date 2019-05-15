@@ -393,11 +393,99 @@ insert into trade_detail values(11, 'aaaaaaac', 4, 'commit');
 2. 两个数据量不同的表，应该怎么选择驱动表？
 
 > 补充：<br>
-> 1. Index Nested-Loop Join <br>
-> 2. Simple Nested-Loop Join <br>
-> 3. Block Nested-Loop Join
+> 1. Index Nested-Loop Join 【索引嵌套循环联接】<br>
+> 2. Simple Nested-Loop Join 【简单嵌套循环联接】<br>
+> 3. Block Nested-Loop Join 【块嵌套循环联接】
+
+为方便理解建立两张表：
+
+```sql
+CREATE TABLE `t2` (
+  `id` int(11) NOT NULL,
+  `a` int(11) DEFAULT NULL,
+  `b` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `a` (`a`)
+) ENGINE=InnoDB;
+
+drop procedure idata;
+delimiter ;;
+create procedure idata()
+begin
+  declare i int;
+  set i=1;
+  while(i<=1000)do
+    insert into t2 values(i, i, i);
+    set i=i+1;
+  end while;
+end;;
+delimiter ;
+call idata();
+
+create table t1 like t2;
+insert into t1 (select * from t2 where id<=100)
+```
+
+两张表结构完全相同，只是数据量不同 t1 1000条 t2 100条，均有主键索引字段 ID，普通索引字段 a 和无索引字段 b。
+
+`select * from t1 straight_join t2 on (t1.a=t2.a);` 使用 straight_join 的目的是 强制将左表作为驱动表，右表作为被驱动表。从而忽略优化选择的影响。
+
+![](https://ws4.sinaimg.cn/large/006tNc79gy1g30wz9btiij31cw06swid.jpg)
+
+可以看出执行流程为：
+
+1. 从 t1 表中取一条数据为 R
+2. 从R中取出字段 a 的值到 t2 表里去查找
+3. 取出 t2 表中满足的行和 R 组成一行作为结果集
+4. 重复 1、2、3 的动作，直到遍历完 t1 所有行为止
+
+在以上步骤的驱动表走全表扫描，被驱动表走树搜索，即第 2 步中，用到了 t2 表中字段 a 的索引。讲这种处理算法称为`Index Nested-Loop Join`
+
+怎么选择驱动表？这是个问题。
+
+假设被驱动表的数据为 M 行，在上述例子中，每在被驱动表中查一次数据需要先搜索索引a，然后回表再搜索主键索引，共需要搜索两次，每次搜索的复杂度为 log2M，因此在被驱动表查一次复杂度为 2*log2M
+
+假设驱动表数据为 N 行，需要全表扫描
+
+所以整个过程的复杂度为 N + N*(2*log2M)，  **因此应该让小表作为驱动表。**
+
+*****
+
+`select * from t1 left join t2 on (t1.b=t2.b);`
+
+假设在查询过程中没有用到被驱动表的索引，这样从R中取出字段 a 的值到 t2 表里去查找的过程就需要进行全表扫描，那复杂度就为 N*M  这种算法为`Simple Nested-Loop Join` mysql 并不会采用该算法。如果没有用到被驱动表的索引算法流程如下：
+
+1. 将 t1 表中需要的数据存放在 join_buffer 中
+2. 把 t2 表中每取一条数据和 join_buffer 中的数据对比，符合 join 条件的作为结果集的一部分返回。
+
+以上的算法的重点是 join_buffer 算法称为 `Block Nested-Loop Join`。
+
+被驱动表没有用到索引的执行计划如下：
+![](https://ws2.sinaimg.cn/large/006tNc79gy1g320awi2k4j31q006kdh0.jpg)
 
 
+Block Nested-Loop Join 和 Simple Nested-Loop Join 时间复杂度是一样的，都是 N*M 但是 Block Nested-Loop Join 的判断是在内存中，因此要更快一点。
+
+join_buffer 的大小是由参数 join_buffe_size 设定的，默认值是 256k。如果放不下表 t1的所有数据话，策略很简单，就是分段放。
+
+此时的过程是：
+
+取满一个 join_buffe_size 大小的驱动表数据，然后依次取被驱动表的数据，进行判断，符合加入结果集。然后清空join_buffer_size后，再取一个 join_buffe_size 大小的驱动表数据，再依次取被驱动表的数据... 直到驱动表的数据取完。
+
+驱动表数据 N ，被驱动表数据 M ，需要分K个join_buffe_size，其中N越大K越大，K=λ*N    λ为(0,1)
+
+则需要扫描的行数为：N + (λ*N)*M
+内存判断为：N*M次
+
+所以小表应该是驱动表。
+
+所以结论是， **不管什么情况都应该让小表作为驱动表**
+
+
+> **小表并不是单单指总行数少的，而是指：两个表按照各自的条件过滤，过滤完成之后，计算参与 join 的各个字段的总数据量，数据量小的那个表，就是"小表"**
+
+
+https://www.cnblogs.com/zhenghongxin/p/7029173.html
 
 
 

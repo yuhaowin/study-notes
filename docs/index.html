@@ -91,8 +91,8 @@
     var curdate = new Date();
     var curhour = curdate.getHours();
 
-    // 当前时间大于晚上6点启用深色模式
-    if (curhour > 18) {
+    // 当前时间小于早上6点或者大于晚上6点启用深色模式
+    if (curhour < 6 || curhour >= 18) {
     	var title = 'dark';
     	themes.forEach(function (theme) {
         	var flag = (theme.title !== title);

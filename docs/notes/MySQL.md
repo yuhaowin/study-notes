@@ -360,7 +360,7 @@ insert into trade_detail values(11, 'aaaaaaac', 4, 'commit');
 
 关联 sql 的执行计划如下图
 
-![explain计划](https://ws4.sinaimg.cn/large/006tNc79gy1g2znqze8fkj316k0bctdq.jpg)
+![explain计划](https://ws4.sinaimg.cn/large/006tNc79gy1g334g49skej31dm06mq41.jpg)
 
 第一行显示优化器会先在交易记录表 tradelog 上查到id = 2 的记录 在这个过程中用上了主键索引，rows 表示只扫描了一行。
 
@@ -376,7 +376,7 @@ insert into trade_detail values(11, 'aaaaaaac', 4, 'commit');
 
 当我两个表的 tradeid 字符编码都改成 utf8mb4 时再次查看执行计划：
 
-![](https://ws2.sinaimg.cn/large/006tNc79gy1g2zoxufx05j31480b0jw9.jpg)
+![](https://ws2.sinaimg.cn/large/006tNc79gy1g334b4w3ocj31bc06m75e.jpg)
 
 
 以上三种情况都是因为 **对索引字段做函数运算，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能，选择全索引的扫描。**

@@ -57,7 +57,9 @@ git 重命名文件
 
 如果不想要暂存区中的修改了，将暂存区中修改的记录全部还原
 
-git reset --hard  回退到某个commit 工作区和暂存区都和这个commit一致
+git reset --hard <commitid>  回退到某个commit 工作区和暂存区都和这个commit一致
+
+git reset --soft <commitid>  回退到某个commit 但是修改的内容还在。
 
 git reset HEAD 的区别 取消暂存区的所有内容 保持暂存区和当前最新提交是一致的。
 

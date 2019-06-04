@@ -55,5 +55,212 @@ ArrayList 线程不安全理解：
 
 Arrays.copyOf返回的是原始对象、还是新对象？新对象
 
+********
+********
+
+### 泛型
+
+> 引入泛型的原因：主要是对一个集合内元素类型进行约束，以达到减少使用者的责任的目的，引入泛型可以借助编译器在编译时检查元素类型，防止程序在运行时出现 ClassCastException
+
+```java
+    @Test
+    public void test3() {
+        List list = new ArrayList();
+        list.add("yuhao");
+        list.add("Eric");
+        list.add(new Integer(2));
+
+        // 使用时需要进行强制转换
+        String str1 = (String) list.get(0);
+        String str2 = (String) list.get(1);
+        String str3 = (String) list.get(2);
+    }
+
+    @Test
+    public void test4() {
+        List<String> list = new ArrayList<>();
+        list.add("yuhao");
+        list.add("Eric");
+
+        // 编译器报错
+        //list.add(new Integer(2));
+
+        // 使用是无需做强制转换
+        String str1 = list.get(0);
+        String str2 = list.get(1);
+    }
+```
+
+泛型的实现原理是：在编译后擦出具体传入的类型，相当于传入的是obj类型，然后在使用的地方编译器根据传入的类型进行强制转换，此时，进行强制转换不会报 ClassCastException，因为在添加的时候只能传入一种类型。
+
+下面是test4根据 class 文件反编译的结果,可以看出编译器进行了强制转换。
+
+```java
+    public void test4()
+    {
+        ArrayList arraylist = new ArrayList();
+        arraylist.add("yuhao");
+        arraylist.add("Eric");
+        String s = (String)arraylist.get(0);
+        String s1 = (String)arraylist.get(1);
+    }
+```
+
+一个更深刻的例子：
+
+```java
+public class GenericsTest<T> {
+
+    private T data;
+
+    public T getData() {
+        return data;
+    }
+
+    public void setData(T data) {
+        this.data = data;
+    }
+
+    public static <T, Eric, A, String> T get(T t, Eric eric, String string) {
+        return t;
+    }
+
+    public static void main(String[] args) {
+
+        GenericsTest<String> test1 = new GenericsTest<>();
+        test1.setData("This is generics demo");
+
+        GenericsTest<Long> test2 = new GenericsTest<>();
+        test2.setData(2019L);
+
+        Integer result = get(12, 34, "yuhao");
+    }
+}
+```
+
+反编译后的结果：
+
+```java
+public class GenericsTest
+{
+    public GenericsTest()
+    {
+    }
+
+    private Object data;
+
+    public Object getData()
+    {
+        return data;
+    }
+
+    public void setData(Object obj)
+    {
+        data = obj;
+    }
+
+    public static Object get(Object obj, Object obj1, Object obj2)
+    {
+        return obj;
+    }
+
+    public static void main(String args[])
+    {
+        GenericsTest genericstest = new GenericsTest();
+        genericstest.setData("This is generics demo");
+        GenericsTest genericstest1 = new GenericsTest();
+        genericstest1.setData(Long.valueOf(2019L));
+        Integer integer = (Integer)get(Integer.valueOf(12), Integer.valueOf(34), "yuhao");
+    }
+}
+```
+
+在这个例子中，类后面的 T 指代的是成员变量 data 的类型，在实例化该类时传入的 T 是什么类型，那么成员变量 data 就是什么类型。在这个类中还有个静态方法 get() 参数表后面的 T 和类名后面的 T 指代的并不相同。泛型 <T, Eric, A, String> 中的 Eric String 和 T A 一样，也只是类型的指代，尤其 String 不要被其外形迷惑，实际上在调用 get() 方法传入的 string 是什么类型，String 就代表什么类型。
+
+>定义的泛型类，就一定要传入泛型类型实参么？并不是这样，在使用泛型的时候如果传入泛型实参，则会根据传入的泛型实参做相应的限制，此时泛型才会起到本应起到的限制作用。如果不传入泛型类型实参的话，在泛型类中使用泛型的方法或成员变量定义的类型可以为任何的类型。
+
+意思是我定义了一个泛型类,但是这个泛型不是必须使用的。
+
+```java
+@Data
+public class Result<T> {
+
+    private int code;
+
+    private String message;
+
+    private T data;
+}
+```
 
 
+```java
+    @Test
+    public void test() {
+        // 语法上没有错误，但是虽然定义的是泛型类，但是在使用时没有指定泛型
+        // 等于就是object 没有发挥泛型的作用
+        Result result1 = new Result();
+        result1.setData("Eric");
+        String data = (String) result1.getData();
+        Assert.assertEquals("Eric", data);
+
+        // 限制类类型只能是 String 类型，因此在取出来时可以确保一定是String 类型
+        // 无需进行类型转换
+        Result<String> stringResult = new Result<>();
+        stringResult.setData("yuhao");
+        String data1 = stringResult.getData();
+        Assert.assertEquals("yuhao", data1);
+    }
+```
+
+#### 限定泛型的上下界 --- 上界
+
+假设定义一个方法展示:
+
+```java
+    public static void showData(Result<Number> result){
+        System.out.println(result.getData());
+    }
+```
+
+此时如果传入 Result<Integer> 的实例会报错，虽然 Integer 是 Number 的子类，但是Result<Integer> 不是 Result<Number> 的子类.
+
+可以更改为：
+
+```java
+    public static void showData(Result<?> result){
+        System.out.println(result.getData());
+    }
+```
+
+虽然这样 Result<Integer> 和 Result<Number> 都可以传入，但是其他类型也可以传入如：Result<Person> 显然约束不够。
+
+可以进一步限制：
+
+```java
+    public static void showData(Result<? extent Number> result){
+        System.out.println(result.getData());
+    }
+```
+
+这样就只能传入参数是 Number 和 它子类的类型了。
+
+
+
+#### 泛型方法
+
+> public 与 返回值中间<T>非常重要，可以理解为声明此方法为泛型方法。只有声明了<T>的方法才是泛型方法，泛型类中的使用了泛型的成员方法并不是泛型方法。
+
+
+```java
+    public  <T> T test4(Result<T> result){
+        return result.getData();
+    }
+```
+
+
+```java
+    public  <T extends Number> T test5(Result<T> result){
+        return result.getData();
+    }
+```

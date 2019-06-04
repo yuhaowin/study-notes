@@ -461,6 +461,7 @@ insert into t1 (select * from t2 where id<=100)
 以上的算法的重点是 join_buffer 算法称为 `Block Nested-Loop Join`。
 
 被驱动表没有用到索引的执行计划如下：
+
 ![](https://ws2.sinaimg.cn/large/006tNc79gy1g320awi2k4j31q006kdh0.jpg)
 
 

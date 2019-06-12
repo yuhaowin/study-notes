@@ -4,4 +4,4 @@
 
 > 身体和灵魂总有一个要在床上
 
-![](images/background.jpg)
+<!--![](images/background.jpg)-->

@@ -17,15 +17,35 @@
         a {
             text-decoration:none;
         }
-        .docsify-copy-code-button,.markdown-section pre {
-        	border-radius: 6px !important;
-        }
         img {
         	border-radius: 6px;
         }
+
+        /*剪切板、代码块样式修改*/
+        .docsify-copy-code-button,.markdown-section pre {
+        	border-radius: 6px !important;
+        }
+        /*主页 目录按钮样式修改*/
         .markdown-section p.warn {
         	border-radius: 5px !important;
         }
+		/*图片解析样式*/
+        .image-package {
+    		padding-bottom: 25px;
+    		text-align: center;
+		}
+		.image-package .image-caption {
+    		min-width: 20%;
+    		max-width: 80%;
+    		min-height: 22px;
+    		display: inline-block;
+    		padding: 0px 10px 10px 10px;
+    		margin: 0 auto;
+    		border-bottom: 1px solid #d9d9d9;
+    		font-size: 14px;
+    		color: #969696;
+    		line-height: 1.7;
+		}
     </style>
 </head>
 <body>
@@ -53,6 +73,7 @@
         auto2top: true,
         homepage: '/main.md',
 
+        // 剪切板文案
         copyCode: {
             buttonText: '点击复制',
             errorText: '复制失败',
@@ -67,6 +88,24 @@
             noData: '无结果!',
             // 搜索标题的最大程级, 1 - 6
             depth: 3
+        },
+
+        // 配置图片解析规则
+        markdown: {
+            smartypants: true,
+            renderer: {
+                image: function(href,title,text){
+                	if(typeof text == "undefined" || text == null || text == ""){
+                		text = '图例';
+                	}
+					var imageDom = `
+						<div class="image-package">
+							<p><img src='${href}'/></p>
+							<div class="image-caption">${text}</div>
+						</div>`
+                	return imageDom;
+            	}
+          	}
         }
     }
 
@@ -98,9 +137,9 @@
 </script>
 <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
 <script src="//unpkg.com/docsify/lib/plugins/search.js"></script>
+<script src="//unpkg.com/docsify-copy-code"></script>
 <script src="//unpkg.com/prismjs/components/prism-java.min.js"></script>
 <script src="//unpkg.com/prismjs/components/prism-bash.min.js"></script>
 <script src="//unpkg.com/prismjs/components/prism-sql.min.js"></script>
-<script src="//unpkg.com/docsify-copy-code"></script>
 </body>
 </html>

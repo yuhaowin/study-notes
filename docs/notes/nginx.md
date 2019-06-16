@@ -25,6 +25,19 @@ location    同一域名下   分发到不同的路径   或者项目
 
 并发数 = 并发连接数 = 同时存在的TCP连接数量，并发数只消耗内存，所以单纯看并发数的话，只用每个连接消耗更小的内存即可。
 
+#### 正向代理和反向代理
+
+![正向代理](http://ww1.sinaimg.cn/large/006tNc79ly1g4218436hej30tm0f6dh4.jpg)
+
+![反向代理](http://ww1.sinaimg.cn/large/006tNc79ly1g4218um92kj30su0f0400.jpg)
+
+所谓正向、反向其实就是代理的对象不同，正向代理的代理对象是客户端,反向代理的代理对象是服务端，代理服务器在客户端那边就是正向代理，代理服务器在原始服务器那边就是反向代理。
+
+用户在一次访问诉求中是有可能同时经历正向代理和反向代理的， **假设我在公司的内网环境中访问不了百度，此时可以通过一个代理(正向代理)服务器来访问百度，当这个代理服务器将我的请求转发给百度时，这个代理服务器对百度而言就是一个客户端，同时百度可能会有一个前置的反向代理服务器，将我的请求转发给一个真正可以处理我的请求的应用服务器，最终将结果返回给我。那在这整个链路中就即经历了正向代理又经历了反向代理。**
+
+[正向代理和反向代理参考资料](https://www.jianshu.com/p/ae76c223c6ef)
+
+******
 
 nginx的主要使用场景
 
@@ -52,8 +65,7 @@ nginx的主要使用场景
 不建议直接使用yun install 直接安装，推荐编译安装，编译安装可以定制化自己需要的模块
 
 ```shell
-  //可以看到完整的编译参数
-  ./configure --help 
+  ./configure --help    //可以看到完整的编译参数
 ```
 [nginx官网](https://nginx.org/) 下载nginx源码包
 
@@ -77,16 +89,16 @@ nginx的主要使用场景
 ./configure --prefix=/Users/yuhao/Desktop/nginx-test
 ```
 
-![执行 configure 后的目录](http://ww2.sinaimg.cn/large/006tNc79gy1g40jpto3w5j30r206aq31.jpg)
+![执行 configure 命令](http://ww2.sinaimg.cn/large/006tNc79gy1g40jpto3w5j30r206aq31.jpg)
 
 执行完后会生成中间文件 objs
 
 ![生成的中间文件objs](http://ww4.sinaimg.cn/large/006tNc79gy1g40jladz4ej30ya0dojs7.jpg)
 
 
-ngx_modules.c 决定的在接下来的编译过程中有哪些模块会被编译到 nginx 中
+**ngx_modules.c 决定的在接下来的编译过程中有哪些模块会被编译到 nginx 中**
 
-##### make
+##### make 编译
 
 ![执行 make 命令](http://ww4.sinaimg.cn/large/006tNc79gy1g40jr7qoi7j30yk08i0t4.jpg)
 
@@ -94,12 +106,12 @@ make 编译后生成的二进制文件依然在 objs 目录下，编译时生成
 
 ![执行 make 后的目录结构](http://ww3.sinaimg.cn/large/006tNc79gy1g40nq9iaalj30wi0d0js4.jpg)
 
-##### make install
+##### make install 安装
 
 会将 nginx 安装到 --prefix 指定的目录中，我这里是
 `/Users/yuhao/Desktop/nginx-test` 
 
-![执行 make install ](http://ww4.sinaimg.cn/large/006tNc79gy1g40nxkflwdj30y80aitaf.jpg)
+![执行 make install 命令](http://ww4.sinaimg.cn/large/006tNc79gy1g40nxkflwdj30y80aitaf.jpg)
 
 ![nginx 的安装目录](http://ww1.sinaimg.cn/large/006tNc79gy1g40o0buwr1j316s0o8wh1.jpg)
 

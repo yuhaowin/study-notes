@@ -1,3 +1,5 @@
+[mp3](/media/song.mp3 ':include')
+
 !> IT 届的小学生、无证上岗的 Java Coder。
 
 ## 💁  面向对象

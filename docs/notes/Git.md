@@ -266,6 +266,13 @@ git stash list
 git stash pop
 
 
+git 默认不区分大小
+
+所以在重命名文件夹和重命名文件时使用 git mv 命令
+
+git mv old_name new_name
+
+
 
 接下来 视频 34
 

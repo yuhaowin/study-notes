@@ -143,3 +143,16 @@ linux文件系统中，改名并不会影响已经打开文件的写入操作，
 
 会启动一个新的 master进程，这新的 master 进程使用的是 新的 nginx 二进制文件启动的，新的master 会生成新的worker 老的 worker 也在运行
 
+
+#### nginx 请求处理流程
+
+![请求处理流程](http://ww2.sinaimg.cn/large/006tNc79gy1g45suqspf0j312c0hkjvf.jpg)
+
+
+#### nginx 进程结构
+
+nginx 有两种进程结构，单进程和多进程
+
+![进程结构](http://ww2.sinaimg.cn/large/006tNc79gy1g45t0nmef1j30w80ik0vg.jpg)
+
+有多个 worker 进程，是为了希望一个进程对应一个cpu核心，减少进程间的切换，一般 worker 的个数和cpu核心数一致，同时将 worker 进程和cpu核心绑定。确保一个进程从始至终都和一个核心绑定。可以更好的使用每个cpu核心上的缓存，减少缓存失效。

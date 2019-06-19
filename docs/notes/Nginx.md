@@ -1,4 +1,6 @@
-?> 更新中。。。
+# 开篇 | 这一次，让我们一起来搞懂 NGINX
+
+2019-06-19 余浩 <br/><br/>
 
 并发送和 QPS tps？
 
@@ -146,13 +148,86 @@ linux文件系统中，改名并不会影响已经打开文件的写入操作，
 
 #### nginx 请求处理流程
 
-![请求处理流程](http://ww2.sinaimg.cn/large/006tNc79gy1g45suqspf0j312c0hkjvf.jpg)
+![请求处理流程](http://ww4.sinaimg.cn/large/006tNc79gy1g46hent1qkj30v20e8dhm.jpg)
+
+了解 nginx 是怎么记录日志 处理静态资源 反向代理。
+
+三种流量会交由 nginx 处理，三种状态机分别处理这三种请求
+
+TCP/UDP 交由四层传输层状态机
+
+应用层 交由 HTTP 状态机
+
+邮件 交由 Mail 状态机
+
+nginx 使用的是非阻塞的事件驱动的处理方式，异步处理的方式都是通过状态机进行识别和处理的。
+
+在做反向代理时，可以通过协议/应用层的协议将请求透传到上游服务。
 
 
 #### nginx 进程结构
 
-nginx 有两种进程结构，单进程和多进程
+nginx 有两种进程结构，单进程和多进程，默认使用的是多进程结构，以便于 nginx 利用多核的特性
 
-![进程结构](http://ww2.sinaimg.cn/large/006tNc79gy1g45t0nmef1j30w80ik0vg.jpg)
+![进程结构](http://ww1.sinaimg.cn/large/006tNc79gy1g46hh18tmjj30q00f4myk.jpg)
 
-有多个 worker 进程，是为了希望一个进程对应一个cpu核心，减少进程间的切换，一般 worker 的个数和cpu核心数一致，同时将 worker 进程和cpu核心绑定。确保一个进程从始至终都和一个核心绑定。可以更好的使用每个cpu核心上的缓存，减少缓存失效。
+在 nginx 的进程模型中，有一个 master 进程，该 master 进程有许多 子进程，众多子进程中分为两种，一种是 worker 进程，一种是 cache 相关的进程。
+
+多个 worker 进程，是为了希望一个进程对应一个cpu核心，减少进程间的切换，一般 worker 的个数和cpu核心数一致，同时将 worker 进程和cpu核心绑定。确保一个进程从始至终都和一个核心绑定。可以更好的使用每个cpu核心上的缓存，减少缓存失效。
+
+nginx 为什么是多进程结构，而不是多线程结构，因为线程之间是共享同一个地址空间的，如果出现了地址空间的越界时，会导致整个服务挂掉。
+
+nginx 的父子进程之间的通信是通过信号进行的。
+
+
+ps -ef | grep nginx
+
+nginx -s reload
+
+会让老的 worker 进程退出，在根据配置文件启动新的子进程
+
+kill -SIGHUP 父进程的pid  == nginx -s reload
+
+nginx 是一个多进程的程序，多进程之间的通信可以使用共享内存、信号等，nginx 在做进程间的管理时只使用信号
+
+能够发送、处理信号的有 master 进程、worker 进程、nginx 的命令
+
+![nginx 的信号管理](http://ww2.sinaimg.cn/large/006tNc79gy1g46xo5yucoj30u80eg3ze.jpg)
+
+子进程终止时会向父进程发送 CHLD 信号
+
+TERM、INT 立刻停止  nginx 进程
+
+QUIT 优雅的停止 nginx 进程 （处理完当前的请求在停止进程）
+
+HUP 重载配置文件
+
+USR1 重新打开日志文件，做日志的切割
+
+USR2 和 WINCH 只能通过 kill 发送 做热部署时使用
+
+一般不直接对 worker 进程发送信号
+
+nginx 在运行时，默认会在 log/nginx.pid 文件中记录当前 master 的pid
+
+
+#### nginx 的 reload 重载配置文件流程
+
+![reload 流程1](http://ww1.sinaimg.cn/large/006tNc79gy1g46y3cgs57j30su0f0wg2.jpg)
+
+03 可能在新的配置文件中添加的新的监听端口
+
+子进程会继承父进程所有已经打开的监听端口
+
+06 新的连接只会进入新的 worker 进程
+
+![reload 流程2](http://ww3.sinaimg.cn/large/006tNc79gy1g46y4defylj30ty0eeq3n.jpg)
+
+#### nginx 热升级流程
+
+![热升级流程1](http://ww3.sinaimg.cn/large/006tNc79gy1g46yksz1smj30pq0eu0u7.jpg)
+
+
+![热升级流程2](http://ww4.sinaimg.cn/large/006tNc79gy1g46ylbe34yj30v20e874v.jpg)
+
+

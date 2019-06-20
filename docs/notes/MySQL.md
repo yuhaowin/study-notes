@@ -1,3 +1,9 @@
+# 必学 | 完全掌握 MYSQL 常用知识点
+
+余浩 2019-03-12<br/><br/>
+
+![](http://ww4.sinaimg.cn/large/006tNc79gy1g47mtn3tyvj31iu0mi0uw.jpg)
+
 #### mysql数据库删除大表方法
 
 centos 快速查看 my.cnf 文件位置 

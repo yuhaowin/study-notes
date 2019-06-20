@@ -1,7 +1,6 @@
 # 必学 | 完全掌握 MYSQL 常用知识点
 
-余浩 2019-03-12<br/><br/>
-
+余浩 2019-03-12
 ![](http://ww4.sinaimg.cn/large/006tNc79gy1g47mtn3tyvj31iu0mi0uw.jpg)
 
 #### mysql数据库删除大表方法
@@ -426,7 +425,7 @@ insert into trade_detail values(11, 'aaaaaaac', 4, 'commit');
 
 当我两个表的 tradeid 字符编码都改成 utf8mb4 时再次查看执行计划：
 
-![](https://ws2.sinaimg.cn/large/006tNc79gy1g334b4w3ocj31bc06m75e.jpg)
+![explain计划](https://ws2.sinaimg.cn/large/006tNc79gy1g334b4w3ocj31bc06m75e.jpg)
 
 
 以上三种情况都是因为 **对索引字段做函数运算，可能会破坏索引值的有序性，因此优化器就决定放弃走树搜索功能，选择全索引的扫描。**
@@ -480,7 +479,7 @@ insert into t1 (select * from t2 where id<=100)
 
 `select * from t1 straight_join t2 on (t1.a=t2.a);` 使用 straight_join 的目的是 强制将左表作为驱动表，右表作为被驱动表。从而忽略优化选择的影响。
 
-![](https://ws4.sinaimg.cn/large/006tNc79gy1g30wz9btiij31cw06swid.jpg)
+![explain计划](https://ws4.sinaimg.cn/large/006tNc79gy1g30wz9btiij31cw06swid.jpg)
 
 可以看出执行流程为：
 
@@ -512,7 +511,7 @@ insert into t1 (select * from t2 where id<=100)
 
 被驱动表没有用到索引的执行计划如下：
 
-![](https://ws2.sinaimg.cn/large/006tNc79gy1g320awi2k4j31q006kdh0.jpg)
+![explain计划](https://ws2.sinaimg.cn/large/006tNc79gy1g320awi2k4j31q006kdh0.jpg)
 
 
 Block Nested-Loop Join 和 Simple Nested-Loop Join 时间复杂度是一样的，都是 N*M 但是 Block Nested-Loop Join 的判断是在内存中，因此要更快一点。
@@ -536,7 +535,7 @@ join_buffer 的大小是由参数 join_buffe_size 设定的，默认值是 256k�
 > **小表并不是单单指总行数少的，而是指：两个表按照各自的条件过滤，过滤完成之后，计算参与 join 的各个字段的总数据量，数据量小的那个表，就是"小表"**
 
 
-https://www.cnblogs.com/zhenghongxin/p/7029173.html
+[参考资料](https://www.cnblogs.com/zhenghongxin/p/7029173.html)
 
 
 

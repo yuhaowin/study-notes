@@ -1,6 +1,8 @@
-?> 持续更新ing。。。
+# 掌握 | GIT 当今最流行的分布式版本控制工具
+余浩 2019-01-24
+![](http://ww2.sinaimg.cn/large/006tNc79gy1g482l2w9a5j31g80qwq8e.jpg)
 
-你好 1111
+### 基本配置
 
 git confing 文件有3个作用域
 
@@ -21,6 +23,8 @@ git config --global user.email ' '
 git config --list --global
 
 ****
+
+### 初尝试
 
 新建Git仓库
 
@@ -115,7 +119,7 @@ git push origin –-delete <BranchName>
 
 *********
 
-.git 内部
+### 探究 「.git」仓库内部
 
 ![](https://ws1.sinaimg.cn/large/006tKfTcgy1g10f5fv859j30wi0qe44p.jpg)
 
@@ -141,7 +145,7 @@ todo
 将以往多个commit 合并成一个commit：
 
 
-******
+### GIT 常用命令
 
 gitf 分支的合并
 
@@ -192,7 +196,7 @@ gitf 分支的合并
 [git合并参考资料](https://www.jianshu.com/p/684a8ae9dcf1)
 
 
-******
+### GIT 使用技巧
 
 分离头指针
 

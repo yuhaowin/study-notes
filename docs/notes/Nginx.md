@@ -1,6 +1,5 @@
 # 01 | 这一次，让我们一起来搞懂 NGINX
-
-余浩 2019-06-19<br/><br/>
+余浩 2019-06-19
 ![](http://ww1.sinaimg.cn/large/006tNc79gy1g47es2kqipj31i40u07wh.jpg)
 
 #### 正向代理和反向代理

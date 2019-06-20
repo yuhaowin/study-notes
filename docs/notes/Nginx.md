@@ -1,31 +1,7 @@
-# 开篇 | 这一次，让我们一起来搞懂 NGINX
+# 01 | 这一次，让我们一起来搞懂 NGINX
 
-2019-06-19 余浩 <br/><br/>
-
-并发送和 QPS tps？
-
-QPS = 并发数/平均响应时间
-
-并发数 = QPS*平均响应时间
-
-cpu使用率和cpu负载
-
-server_name 和 location 的作用：
-
-server_name 配置不同的域名    不同域名不同虚拟主机
-
-location    同一域名下   分发到不同的路径   或者项目 
-
-> RPS = requests/second 每秒处理的请求数量
-> concurrent connections = 并发连接数
-> 在高并发的场景想往往会导致吞吐量(rps)下降
-
-连接和请求的关系：
-
-+ 连接是指 tcp 连接，可以在连接上进行双向的消息发送和接收。
-+ 请求是指 http 请求，一个 http 请求对应一个 http 响应，这是一个完整的请求，一个连接可以对应多个 http 请求，这叫做http协议中的keepalive长连接。
-
-并发数 = 并发连接数 = 同时存在的TCP连接数量，并发数只消耗内存，所以单纯看并发数的话，只用每个连接消耗更小的内存即可。
+余浩 2019-06-19<br/><br/>
+![](http://ww1.sinaimg.cn/large/006tNc79gy1g47es2kqipj31i40u07wh.jpg)
 
 #### 正向代理和反向代理
 
@@ -229,5 +205,43 @@ nginx 在运行时，默认会在 log/nginx.pid 文件中记录当前 master 的
 
 
 ![热升级流程2](http://ww4.sinaimg.cn/large/006tNc79gy1g46ylbe34yj30v20e874v.jpg)
+
+
+
+
+
+
+
+
+
+
+
+
+*********
+
+并发送和 QPS tps？
+
+QPS = 并发数/平均响应时间
+
+并发数 = QPS*平均响应时间
+
+cpu使用率和cpu负载
+
+server_name 和 location 的作用：
+
+server_name 配置不同的域名    不同域名不同虚拟主机
+
+location    同一域名下   分发到不同的路径   或者项目 
+
+> RPS = requests/second 每秒处理的请求数量
+> concurrent connections = 并发连接数
+> 在高并发的场景想往往会导致吞吐量(rps)下降
+
+连接和请求的关系：
+
++ 连接是指 tcp 连接，可以在连接上进行双向的消息发送和接收。
++ 请求是指 http 请求，一个 http 请求对应一个 http 响应，这是一个完整的请求，一个连接可以对应多个 http 请求，这叫做http协议中的keepalive长连接。
+
+并发数 = 并发连接数 = 同时存在的TCP连接数量，并发数只消耗内存，所以单纯看并发数的话，只用每个连接消耗更小的内存即可。
 
 

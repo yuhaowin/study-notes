@@ -205,9 +205,28 @@ nginx 在运行时，默认会在 log/nginx.pid 文件中记录当前 master 的
 
 ![热升级流程2](http://ww4.sinaimg.cn/large/006tNc79gy1g46ylbe34yj30v20e874v.jpg)
 
+#### 优雅关闭 worker 进程
+
+nginx -s stop 立即停止 nginx 的 worker 进程
+
+nginx -s quit 优雅停止 nginx 的 worker 进程
+
+![优雅关闭 worker 进程](http://ww3.sinaimg.cn/large/006tNc79gy1g48mb3sdnfj30y40dydh6.jpg)
+
+如果直接关闭连接会导致正在请求访问的用户收到错误，优雅关闭是指，当 nginx 的 worker 进程识别到当前的连接没有处理请求时才关闭连接。
+
+但是不是所有的类型的请求 worker 进程都能识别，如：websocket、 TCP/UDP 反向代理时，无法进行优雅关闭，但对于 HTTP 请求是可以。
 
 
+#### 网络收发和 Nginx 事件间的对应关系
 
+nginx 是一个事件（网络事件）驱动型的框架，一个连接会对应两种网络事件：读事件、写事件
+
+![网络传输](http://ww2.sinaimg.cn/large/006tNc79gy1g48n17f533j30y20fidgq.jpg)
+
+![TCP流和报文](http://ww4.sinaimg.cn/large/006tNc79gy1g48n21a21xj30xe0fk3zq.jpg)
+
+![流程](http://ww3.sinaimg.cn/large/006tNc79gy1g48qci0s7vj30xe0hmgo1.jpg)
 
 
 

@@ -27,7 +27,9 @@
 ?> [Nginx 服务器](notes/Nginx.md)
 
 ## 🛠  工具
-?> [Git](notes/Git.md)
+?> [Git 教程](notes/Git.md)
+
+?> [Gradle 教程](notes/Gradle.md)
 
 ## 📚  面试记录
 ?> [面试记录](notes/面试记录.md)

@@ -60,6 +60,28 @@
         audio:focus {
             outline: none;
         }
+
+        /*内容区域样式修改*/
+        .sidebar-nav a,
+        .sidebar nav a {
+            white-space: unset !important;
+        }
+
+        .sidebar-nav ul li ul {
+            font-size: 14px;
+        }
+
+        .sidebar-nav ul li strong {
+            font-size: 17px;
+        }
+
+        h1#fullstack-tutorial span {
+            color: hsl(204, 90%, 45%);
+        }
+
+        article#main a {
+            color: hsl(204, 90%, 45%);
+        }
     </style>
 </head>
 <body>
@@ -82,7 +104,7 @@
             name: 'Eric_余浩的博客',
             repo: 'https://github.com/yuhaowin',
             coverpage  : 'coverpage.md',
-            homepage   : 'introduction.md',
+            homepage   : 'homepage.md',
             loadSidebar: 'sidebar.md',
             auto2top   : true,
             maxLevel   : 3,

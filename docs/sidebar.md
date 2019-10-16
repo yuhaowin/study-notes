@@ -1,4 +1,4 @@
-- [Introduction](introduction)
+- [HOME](homepage)
 - **Java 核心概念**
 - [Java 基础](JavaArchitecture/01-Java基础)
 - [Java 集合框架](JavaArchitecture/02-Java集合框架)

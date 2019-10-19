@@ -1,87 +1,8 @@
-![full stack developer tutorial](assets/fullstack-tutorial-logo.png)
+!> IT 届的小学生、无证上岗的 Java Coder。
 
 |              I              |           II           |           III           |           IV           |            V            |            VI            |        VII        |         VIII         | IX |            X            |            XI            |            XII            |
 | :--------------------------: | :-------------------: | :----------------------: | :---------------------: | :--------------: | :---------------: | :----------------------: | :----------------------: | :----------------------: | :----------------------: | :----------------------: | :----------------------: |
 | 算法<br />[📝](#一数据结构与算法) | Java<br/>[☕️](#二java) | Python<br />[🐍](#三python) | 前端<br />[🔗](#四前端) | 数据库<br/>[💾](#五数据库) | 操作系统<br/>[💻](#六操作系统) | 网络通信<br/>[☁️](#七网络通信) | 分布式<br/>[📃](#八分布式) | 机器学习<br/> [🔍](#九机器学习) |工具<br/>[🔨](#十工具) |Learn<br />[📖](#learn-) |Talking<br />[💡](#talking-bulb) |
-
-<div align="center">  
-    <p>
-        📢📢📢
-    </p>
-    <p>
- 		和 400+ 技术达人在线交流：
-      <a href="notes/技术交流群.md">QQ技术交流群</a>
-    </p>
-  <p>
-    欢迎光临我的技术博客：<a href="https://www.frankfeekr.cn">www.frankfeekr.cn</a>
-  </p>
-    <p>
-        欢迎志同道合的小伙伴加入开源小组：<a href="notes/开源贡献.md">⊱ 开源小组，英雄招募令</a>
-    </p>
-    <div>
-        <br/>
-        <p>
-            🎯🎯🎯
-        </p>
-        <p>
-             为极客打造，阅读体验更好的在线文档（与 GitHub 实时同步）
-        </p>
-        <p>
-            支持手机阅读，目录导航，Gitalk 评论，搜索定位
-        </p>
-        <p>
-            📖 <a href="https://frank-lam.github.io/fullstack-tutorial/#/">点击，即刻开始阅读！</a>
-        </p>
-    </div>
-        <div>
-        <br/>
-        <p>
-            🎯🎯🎯
-        </p>
-        <p>
-             也许你特别钟爱 GitHub 的阅读体验，没关系
-        </p>
-        <p>
-            我也为您打造了一款 Chrome 插件 <a href="https://github.com/fullstack-tutorial/github-markdown-toc">Chrome Extension：GitHub Markdown</a>
-        </p>
-        <p>
-            方便在 GitHub 长文阅读时，在侧边栏生成标题目录定位
-            </p>
-        <p>
-            🎅 特别鸣谢共同完成两位小伙伴：<a href="https://github.com/dxiaoqi">@dxiaoqi</a> <a href="https://github.com/dzeze">@dzeze</a>
-    </div>
-</div>
-
-
-
-
-## 前言
-
-- [谈谈技术学习的一些方法论](https://www.frankfeekr.cn/2019/05/09/谈谈技术学习的一些方法论/)
-
-  在学习技术这条路上并不是一帆风顺，也一直在探索一条适合自己的学习方法。从一开始的技术小白，到现在还比较上道的老鸟，在这个过程中走了太多的弯路，想在这里和大家分享一些我的经历和学习方法。
-
-- [如何选择自己的技术栈](https://www.frankfeekr.cn/2019/05/27/如何选择自己的技术栈/)
-
-  在编程的世界里，该如何选择自己的技术栈呢。学前端？学 APP 开发？对于 Java、C++、C#、Python、PHP 又如何选择呢？人工智能现如今这么火，是不是机器学习、深度学习更高级一些呢？那么程序员又如何修炼内功呢？
-
-- [全栈开发神兵利器](notes/全栈开发神兵利器.md)
-
-  工欲善其事，必先利其器。这里我将推荐开发过程中的提效工具、开发利器、协作工具、文档技术等等。
-
-- [XP 极限编程](notes/XP极限编程.md)
-
-  敏捷软件开发中可能是最富有成效的几种方法学之一
-
-
-
-## 技能图谱
-
-- [backend skill](notes/SkillTree/backend-skill.md)
-
-  后台开发技能图谱，从程序员的内功修炼到后台语言，分布式系统架构
-
-
 
 ## 一、数据结构与算法
 
@@ -92,8 +13,6 @@
 - [海量数据处理](notes/海量数据处理.md)
 
   数据处理典型案例，逐渐更新
-
-
 
 ## 二、Java
 
@@ -269,15 +188,6 @@
 
 - [玩转时序数据库 InfluxDB（一）初体验](https://www.frankfeekr.cn/2019/07/24/influxdb-tutorial-start/)
 
-
-
-
-
-【说明】**分布式专题** 笔者也在学习中，这里列举了一些技能列表，笔者将局部更新。敬请期待
-
-
-
-
 <details>
 <summary>TODO LIST</summary>
 
@@ -340,8 +250,6 @@
 
 </details>
 
-
-
 ## 九、机器学习
 
 - [深度学习初识](notes/DeepLearning/深度学习初识.md)
@@ -349,9 +257,6 @@
 - 经典机器学习算法
 
   K 近邻算法、线性回归、梯度下降法、逻辑回归、支持向量机、决策树、集成学习
-
-
-
 
 ## 十、工具
 
@@ -377,8 +282,6 @@
 
 - [什么是 TDD 及常见的测试方法](notes/软件测试.md)
 
-
-
 ## Learn 📖
 
 - [LEARN_LIST](notes/LEARNLIST.md)
@@ -388,63 +291,4 @@
 - [web应用开发标准流程](notes/web应用开发标准流程.md)
 
 
-
-## Talking :bulb:
-
-本仓库致力于成为一个全栈开发爱好者的学习指南，给初学者一个更明确的学习方向，同时也是对自己技能的强化和巩固。在架构师这条路上，希望和大家一起成长，帮助更多的计算机爱好者能够有一个明确的学习路径。持续不间断的维护本仓库，也欢迎有更多的极客们加入。
-
-都说好记性不如烂笔头，定期的学习和整理必然对学习巩固有所帮助，这里通过索引的方式对全栈开发技术做一个系统分类，方便随时巩固和学习，当然还有面试。在学习这条路上难免会有很多盲点和学不完的知识。有道无术，术尚可求，掌握好思维能力才能应对千变万化的技术。不要把大脑当成硬盘，也不要做高速运转的 CPU，而修行自己的大脑成为一个搜索引擎，学会分析解决问题。
-
-Since 20,May,2018
-
-
-
-## Reference
-
-个人的能力有限，在编写的过程中引用了诸多优秀的 GitHub 仓库。本项目的启发来自 [@CyC2018](https://github.com/CyC2018) 的学习笔记，是一个非常优秀的开源项目，在本仓库中部分内容引用文字和图例；引用了 [@计算所的小鼠标](https://github.com/CarpenterLee) 中对于 JCF 的源码分析和理解；引用了  [阿里面试题总结](https://www.nowcoder.com/discuss/5949) 中全部的面试题，并对面经进行了整理勘误，并进行了知识拓展和修改；引用了 [牛客网](https://www.nowcoder.com) 上的面试经验贴。也引用了知乎上的热门回答和优秀博客的回答。在这里特别鸣谢，我将每篇文章中做外链引用说明。
-
-文中我也推荐了学习的书籍和学习课程，都将附着上最高清、最形象的配图进行讲解。在文中的配图都来自自己绘制的、博客、Github、PDF书籍等等，这里没法一一感谢，谢谢你们。
-
-推荐一些优秀的开源项目，供大家参考，[reference](notes/reference.md)。
-
-
-
-## Contributors
-
-Thank you to all the people who already contributed to fullstack-tutorial !
-
-Please make sure to read the [Contributing Guide/如何给我的仓库贡献](notes/docs/如何给我的仓库贡献.md) before making a pull request. 
-
-<a href="https://github.com/frank-lam/fullstack-tutorial/graphs/contributors"><img src="https://opencollective.com/fullstack-tutorial/contributors.svg?width=890&button=false" /></a>
-
-
-## Stargazers over time
-
-![Stargazers over time](https://starcharts.herokuapp.com/frank-lam/fullstack-tutorial.svg)
-
-
-
-## License
-
-<a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="知识共享许可协议" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
-
-Copyright (c) 2019-present, Frank Lam
-
-
-
-## 关于作者 :boy:
-
-<div align="center">  
-    <p>
-        在颠覆世界的同时，也要好好关照自己。
-    </p>
-<a  target="_blank" href="https://zhuanlan.zhihu.com/frankfeekr" rel="nofollow"><a href="#backers" alt="sponsors on Open Collective"><img src="https://opencollective.com/fullstack-tutorial/backers/badge.svg" /></a> <a href="#sponsors" alt="Sponsors on Open Collective"><img src="https://opencollective.com/fullstack-tutorial/sponsors/badge.svg" /></a> <img src="https://img.shields.io/badge/知乎专栏-frankfeekr-blue.svg" alt="QQ群" data-canonical-src="" style="max-width:100%;"></a>
-<a target="_blank" href="https://frankfeekr.cn" rel="nofollow"><img src="https://img.shields.io/badge/BLOG-frankfeekr.cn-blue.svg" alt="BLOG" data-canonical-src="" style="max-width:100%;"></a>
-<a target="_blank" href="mailto:frank_lin@whu.edu.cn" rel="nofollow"><img src="https://img.shields.io/badge/Email-frank__lin@whu.edu.cn-lightgrey.svg" alt="邮箱" data-canonical-src="" style="max-width:100%;"></a>
-<a target="_blank" href="https://jq.qq.com/?_wv=1027&k=593WvX0" rel="nofollow" ><img src="https://img.shields.io/badge/QQ群-862619503-green.svg" alt="QQ群" data-canonical-src="" style="max-width:100%;"></a>
-    <br/><br/>
-    <p>
-        from zero to hero.
-    </p>
-</div>
-<div align="center"><img src="assets/wechat-fullstack.png" width="620"/></div><br/>
+[mp3](/media/song.mp3 ':include')

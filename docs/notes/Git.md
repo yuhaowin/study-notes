@@ -278,9 +278,11 @@ git 默认不区分大小
 
 git mv old_name new_name
 
+[git 仓库迁移](https://www.jianshu.com/p/59516a17fcf3)
 
 
-接下来 视频 34
+
+
 
 
 gitlab:

@@ -2,120 +2,309 @@
 余浩 2019-01-24
 ![](http://ww2.sinaimg.cn/large/006tNc79gy1g482l2w9a5j31g80qwq8e.jpg)
 
-### 基本配置
+### 基本使用
 
-git confing 文件有3个作用域
+#### git 配置
 
---local 对某一个仓库有效 （常用）
+```sh
+git config --global user.name  'yuhao'
+git config --global user.email 'yuhaowin@126.com'
+git config --local  user.name  'yuhao' && git config --local  user.email 'yuhaowin@126.com'
+```
 
---system 对系统所有登陆用户有效（不用）
++ --local  对某一个仓库有效 （常用）,配置信息存放在当前仓库`.git/config`文件中。
++ --global 对操作系统当前登陆用户有效（常用）,配置信息存放在`~/.gitconfig`文件中。
++ --system 对操作系统所有登陆用户有效（不用）,配置信息存放在`/etc/gitconfig`文件中。
 
---global 对系统当前登陆用户有效（常用）
+优先级: `local > global > system`
 
-优先级 local > global > system
-
-git config --global user.name ' '
-
-git config --global user.email ' '
-
-查看配置
-
+#### 查看 git 配置信息
+```sh
 git config --list --global
+```
+#### 新建 git 仓库
++ 将已经存在项目加入 git 管理：
 
-****
+```sh
+git init //在项目文件夹内执行 
+```
 
-### 初尝试
++ 新建项目并加入 git 管理：
 
-新建Git仓库
+```sh
+git init projectName  //创建一个新的项目,并加入 git 管理
+```
 
-+ 将已经存在项目加入git管理：在项目文件夹内执行 git init
-+ 新建项目并加入git管理：git init 项目名  会创建一个新的项目
+### 基本概念
 
-****
-git的工作区和暂存区
+#### git 工作区、暂存区
 
-git  工作流程：修改多个文件 添加到暂存区 再一次提交
-
-在工作区修改的内容，先添加到暂存区，确定修改内容后才提交到版本历史中。
+> git 工作流程：把在工作区修改的内容,通过 `git add` 添加到暂存区，再一起提交到版本库。
 
 暂存区具有承上启下的作用：
+
 如果修改的内容合适，可以进一步变成一个正式的commit，如果内容不好，可以回退到未修改的工作区。
 
-git add  可以添加多个文件/文件夹  用空格分割
 
-git status 查看状态
+### 常用命令
 
-git add -u  是将已经被git管理 但是发生了修改的 一起提交到暂存区
-u = update
++ git add
 
-*******
+> 把工作区的一个或多个修改文件加入到暂存区中。
 
-git 重命名文件
+```sh
+git add 可以添加多个文件/文件夹 用空格分割
+git add -u  将已经被git管理,但是发生了修改的文件一起提交到暂存区 u = update
+```
 
-直接在工作区修改了文件名：在git中的表现是删除了老的文件又新增的新的文件，可以通过git status 可以看到
-在暂存区直接删除文件  git rm 文件名
++ git status
 
-+ 重命名步骤  工作区中文件重命名 ->  add新文件  -> rm旧文件
+> 查看当前分支状态
 
-+ git mv 旧文件 新文件  可以直接代替上面3个步骤
++ git mv
 
-*******
+>重命名版本库中的文件,如果直接在工作区修改了文件名，那么在 git 中的表现是`删除`了老的文件又`新增`的新的文件,可以通过 `git status` 查看。
 
-如果不想要暂存区中的修改了，将暂存区中修改的记录全部还原
+```sh
+git mv 旧文件 新文件  可以直接代替上面3个步骤
+```
 
++ git rm
+
+>在暂存区直接删除文件
+
+```sh
+git rm 文件名
+```
+
++ git checkout
+
+```sh
+git checkout -b dev origin/dev 基于远端分支dev的最新提交创建一个本地分支dev，并将本地分支和远端分支建立关联关系。 
+git checkout -b temp 36cc4b4976be439910  基于本地某个提交版本创建一个分支
+```
+
++ git diff
+> git 版本比较
+
+```sh
+git diff //工作区和暂存区的内容比较
+git diff --cached //本地当前分支和暂存区内容比较
+git diff temp master -- <具体的文件> 比较两个commit之间的不同
+```
+
+### 常规需求
+
+#### 取消暂存区的修改
+>如果不想要暂存区中的修改了，将暂存区中修改的记录全部还原
+
+```sh
 git reset --hard <commitid>  回退到某个commit 工作区和暂存区都和这个commit一致
-
 git reset --soft <commitid>  回退到某个commit 但是修改的内容还在。
-
 git reset HEAD 的区别 取消暂存区的所有内容 保持暂存区和当前最新提交是一致的。
+```
 
+#### 查看版本树变化过程
 
-******
-
-查看版本树变化过程
-
-git log  只查看当前分支的所有commit
-
-git log 分支名 查看某个分支的commit
-
-git log --all 查看所有分支的commit
-
-git log --all --graph 查看所有分支的commit 图形化界面
-
+```sh
+git log  		  只查看当前分支的所有 commit
+git log 分支名  查看某个分支的 commit
+git log --all  查看所有分支的 commit
+git log --all --graph  查看所有分支的 commit 图形化界面
 git log --oneline -n4  只看提交的注释  一共看4条
+```
 
-git --help --web log  网页查看log命令的帮助文档
+#### 查看当前版本库分支数
 
-******
-查看当前版本库分支数
+```sh
+git branch -v   查看有多少个分支  
+git branch -av  -a参数是查看远程分支
+```
 
-git branch -v  查看有多少个分支  git branch -av  -a参数是查看远程分支
-
-git 创建分支时强烈建议本地分支和远端分支名称一致。
+#### 本地分支和远端分支关联
+>git 创建分支时强烈建议本地分支和远端分支名称一致。
 
 git创建的本地分支和远端分支关联的两种方法：
 
 + 本地分支dev和远端分支dev建立关联关系。
 
- `git branch --set-upstream-to=origin/dev dev`
+```sh
+git  branch  --set-upstream-to=origin/dev  dev
+```
  
 + 推送当前分支dev到远端并建立与远程分支dev的跟踪
 
- `git push --set-upstream origin dev`
- 
- 建议使用一下命令创建本地和远端关联的分支：
- 
- 基于远端分支dev的最新提交创建一个本地分支dev，并将本地分支和远端分支建立关联关系。
- 
- `git checkout -b dev origin/dev`
+```sh
+git  push  --set-upstream  origin  dev
+```
 
-git checkout -b temp 36cc4b4976be439910  基于本地某个提交版本创建一个分支
-
-git 删除本地分支
+#### 删除本地分支
+```sh
 git branch -d <BranchName>。-D 表示强制删除
+```
 
-git 删除远程分支
+#### 删除原地分支
+```sh
 git push origin –-delete <BranchName>
+```
+
+#### 删除远端仓库
+```sh
+git remote rm origin
+```
+
+#### 分支的合并
++ 主干合并分支
+
+进入分支，更新分支代码
+
+```sh
+（branch）git pull
+```
+
+切换主干
+
+```sh
+（branch）git checkout master
+```
+
+在主干上合并分支branch
+
+```sh
+（master）git merge branch --squash
+```
+
+提交合并后的代码
+
+```sh
+（master）git commit -m ‘合并备注’
+```
+
+将代码推送到远程仓库
+
+```sh
+（master）git push
+```
+
++ 分支合并主干
+
+进入主干，更新主干代码
+
+```sh
+（master）git pull
+```
+
+切换分支
+
+```sh
+（master）git checkout branch
+```
+
+在分支上合并主干
+
+```sh
+（branch）git merge master --squash
+```
+
+提交合并后的代码
+
+```sh
+（branch）git commit -m ‘合并备注’
+```
+
+将代码推送到远程仓库
+
+```sh
+（branch）git push
+```
+
+[git 合并参考资料](https://www.jianshu.com/p/684a8ae9dcf1)
+
+#### 仓库迁移
+
+[git 仓库迁移参考资料](https://www.jianshu.com/p/59516a17fcf3)
+
+#### 提交本地项目到远端新仓库
+>将本地已有的 git 仓库 提交到 服务器
+
+1. gitlab / github 新建一个空的项目
+2. 获取到空项目的 地址 如：http://gitlab.infoepoch.com/rdd/weixin-miniapp.git
+3. 将本地项目加入到服务器
+```sh
+git remote add origin http://gitlab.infoepoch.com/rdd/weixin-miniapp.git
+//其中 origin 只是远端仓库的一个别名，可以任意指定。
+```
+4. 推送至服务器
+```sh
+git push -u origin master
+//-u 表示 下次可以使用 git push 代替  git push -u origin master
+```
+
+[参考资料](https://www.jianshu.com/p/dd864fcee643)
+
+#### gti 推送至多个远端仓库
+
+[gti 推送至多个远端仓库参考资料](https://www.cnblogs.com/huipengly/articles/8306855.html)
+
+
+
+### 一下内容待整理
+
+分离头指针
+
+意思是当前的变更没有和任何一个分支关联，
+
+分离头指针的常常用于做一个尝试性的工作，并没有为改修改创建一个分支，随时准备丢弃掉
+
+创建一个分离头指针的情况：
+
+git checkout 544546
+
+如果在544546这个提交基础上做了很多的修改，发现这些修改是有用的，可以通过为该commitid 创建分支的方法保留变更记录
+
+git branch <新分支名> 544546
+
+*****
+
+修改最新提交commit的message
+
+git commit --amend
+
+*******
+
+修改以前的commit的message（在本地完成，防止影响远端代码库）
+
+git rebase -i 修改的commit的前一个commit
+
+然后现在reword这种策略
+
+
+*****
+
+本地将多个commit合并成一个commit
+
+然后现在squash这种策略
+
+****
+
+取消暂存区内容修改
+
+git reset HEAD
+
+*****
+
+取消工作区内容修改
+
+git checkout <文件名>
+
+
+git stash 
+
+git stash list
+
+git stash pop
+
+
 
 *********
 
@@ -143,147 +332,6 @@ todo
 
 
 将以往多个commit 合并成一个commit：
-
-
-### GIT 常用命令
-
-gitf 分支的合并
-
-1、主干合并分支
-
-进入分支，更新分支代码
-
-（branch）git pull
-
-切换主干
-
-（branch）git checkout master
-
-在主干上合并分支branch
-
-（master）git merge branch --squash
-
-提交合并后的代码
-
-（master）git commit -m ‘合并备注’
-
-将代码推送到远程仓库
-
-（master）git push
-
-2、分支合并主干
-
-进入主干，更新主干代码
-
-（master）git pull
-
-切换分支
-
-（master）git checkout branch
-
-在分支上合并主干
-
-（branch）git merge master --squash
-
-提交合并后的代码
-
-（branch）git commit -m ‘合并备注’
-
-将代码推送到远程仓库
-
-（branch）git push
-
-[git合并参考资料](https://www.jianshu.com/p/684a8ae9dcf1)
-
-
-### GIT 使用技巧
-
-分离头指针
-
-意思是当前的变更没有和任何一个分支关联，
-
-分离头指针的常常用于做一个尝试性的工作，并没有为改修改创建一个分支，随时准备丢弃掉
-
-创建一个分离头指针的情况：
-
-git checkout 544546
-
-如果在544546这个提交基础上做了很多的修改，发现这些修改是有用的，可以通过为该commitid 创建分支的方法保留变更记录
-
-git branch <新分支名> 544546
-
-*****
-
-修改最新提交commit的message
-
-git commit --amend
-
-
-*******
-
-修改以前的commit的message（在本地完成，防止影响远端代码库）
-
-git rebase -i 修改的commit的前一个commit
-
-然后现在reword这种策略
-
-
-*****
-
-本地将多个commit合并成一个commit
-
-然后现在squash这种策略
-
-******
-
-本地当前分支和暂存区内容比较
-
-git diff --cached
-
-*****
-
-工作区和暂存区的内容比较
-
-git diff
-
-*****
-
-比较两个commit之间的不同
-
-git diff temp master -- <具体的文件>
-
-****
-
-取消暂存区内容修改
-
-git reset HEAD
-
-*****
-
-取消工作区内容修改
-
-git checkout <文件名>
-
-
-git stash 
-
-git stash list
-
-git stash pop
-
-
-git 默认不区分大小
-
-所以在重命名文件夹和重命名文件时使用 git mv 命令
-
-git mv old_name new_name
-
-[git 仓库迁移](https://www.jianshu.com/p/59516a17fcf3)
-
-
-
-
-
 
 gitlab:
 

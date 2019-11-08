@@ -16,6 +16,5 @@
 - **工具**
 - [Git 教程](notes/Git.md)
 - [Gradle 教程](notes/Gradle.md)
-
-- [北京电信接口文档](README-BJ.md)
+- [docker 教程](notes/docker.md)
 

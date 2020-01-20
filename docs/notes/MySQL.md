@@ -138,7 +138,7 @@ FROM
 	LEFT JOIN `user` b ON a.openid = b.openid
 WHERE
 	b.openid IS NULL;
-```	
+```
 
 
 + 使用not exist判断

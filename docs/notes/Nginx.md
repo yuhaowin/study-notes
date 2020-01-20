@@ -1,4 +1,5 @@
 # 01 | 这一次，让我们一起来搞懂 NGINX
+
 余浩 2019-06-19
 ![](http://ww1.sinaimg.cn/large/006tNc79gy1g47es2kqipj31i40u07wh.jpg)
 
@@ -227,7 +228,6 @@ nginx 是一个事件（网络事件）驱动型的框架，一个连接会对�
 ![TCP流和报文](http://ww4.sinaimg.cn/large/006tNc79gy1g48n21a21xj30xe0fk3zq.jpg)
 
 ![流程](http://ww3.sinaimg.cn/large/006tNc79gy1g48qci0s7vj30xe0hmgo1.jpg)
-
 
 
 

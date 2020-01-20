@@ -53,7 +53,6 @@ Map<Boolean, List<User>> collect2 = users.stream()
 
 + [参考资料2](http://www.importnew.com/17313.html)
 
-
 *******
 
 

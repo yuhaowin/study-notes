@@ -57,7 +57,7 @@ GOOS=windows GOARCH=amd64 make release-client
 在ngrok/bin目录下可以查看到生成的客户端和服务端
 ```
 7. 启动服务端
-```shell   
+```shell
 #指定我们刚才设置的域名，指定http, https, tcp端口号，端口号不要跟其他程序冲突
 ./bin/ngrokd -domain="yuhaowin.com" -httpAddr=":80" -httpsAddr=":443" -tunnelAddr=":4443"
 ```

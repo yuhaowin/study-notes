@@ -16,6 +16,10 @@
 - **工具**
 - [Git 教程](notes/Git.md)
 - [Gradle 教程](notes/Gradle.md)
-- [docker 教程](notes/docker.md)
+- [Docker 教程](notes/docker.md)
+- [Kafka 教程](notes/kafka.md)
 - **文章**
 - [一次服务器调优](article/一次服务器调优.md)
+- [微信代理-agent](article/微信代理.md)
+- [搭建 ngrok](article/ngrok.md)
+- [JAVA 最佳实践](article/java最佳实践.md)

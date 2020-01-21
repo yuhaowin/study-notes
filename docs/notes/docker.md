@@ -20,7 +20,7 @@ docker stop [NAME]/[CONTAINER ID]   关闭名称为docker_name的容器
 docker rm  [NAME]/[CONTAINER ID]    删除名称为docker_name的容器
 
 docker rmi [NAME]/[IMAGE ID]        删除名称为docker_name的镜像
- 
+
 docker rename old_name new_name     给容器重命名
 
 如果删除时遇到依赖问题导致无法删除，可以查询依赖关系
@@ -31,7 +31,6 @@ xxxxx 为无法删除的 image-id
 
 docker ps: 查看当前运行的容器
 docker ps -a:查看所有容器，包括停止的。
-
 
 ************
 

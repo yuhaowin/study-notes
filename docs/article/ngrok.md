@@ -1,7 +1,6 @@
 ## 手把手教你搭建ngrok服务器，实现内网穿透
 
-ngrok是一个反向代理的小工具，可以直接从官网下载ngrok客户端，连接官方的服务，达到内网穿透的目的，但由于官方服务器在国外，加上一些不可描述的原因，导致直接使用官方提供的服务比较慢。国内也有很多内网穿透的服务，如：natapp，但是追根溯源使用的都是使用该公司开放的1.7版本的源码编译的。
-
+ngrok是一个反向代理的小工具，可以直接从官网下载ngrok客户端，连接官方的服务，达到内网穿透目的，但由于官方服务器在国外，加上一些不可描述的原因，导致直接使用官方提供的服务比较慢。国内也有很多内网穿透的服务，如：natapp，但是追根溯源使用的都是使用该公司开放的1.7版本的源码编译的。
 以下将要演示的也是用1.7版的源码进行编译，在此感谢开源世界，由此才能站在巨人的肩膀。
 
 ### 准备工作
@@ -11,8 +10,6 @@ ngrok是一个反向代理的小工具，可以直接从官网下载ngrok客户�
 * https证书（可选，如果没有就自己制作，但是无法真正代理https）
 
 ### 安装步骤
-
-
 1. 安装git（非必须，安装是为了方便下载ngrok源码） 
 ```shell	
 yum install git
@@ -57,13 +54,12 @@ GOOS=windows GOARCH=amd64 make release-server
 GOOS=darwin GOARCH=amd64 make release-client
 #编译64位windows客户端
 GOOS=windows GOARCH=amd64 make release-client
-
 在ngrok/bin目录下可以查看到生成的客户端和服务端
 ```
 7. 启动服务端
 ```shell   
 #指定我们刚才设置的域名，指定http, https, tcp端口号，端口号不要跟其他程序冲突
-./bin/ngrokd -domain="$NGROK_DOMAIN" -httpAddr=":80" -httpsAddr=":443" -tunnelAddr=":4443"
+./bin/ngrokd -domain="yuhaowin.com" -httpAddr=":80" -httpsAddr=":443" -tunnelAddr=":4443"
 ```
 8. 启动客户端
 ```shell
@@ -112,25 +108,18 @@ acme.sh --installcert  -d  <domain>.com   \
 
 
 ### nginx 反向代理 ngrok 配置
-
 ```shell
     # HTTPS server
     server {
         listen       443 ssl;
         server_name  *.yuhaowin.com;
-
         ssl_certificate      ../ssl/yuhaowin.com/fullchain.cer;
         ssl_certificate_key  ../ssl/yuhaowin.com/yuhaowin.com.key;
-
         ssl_session_cache    shared:SSL:1m;
         ssl_session_timeout  5m;
-
-       # ssl_ciphers  HIGH:!aNULL:!MD5;
-       # ssl_prefer_server_ciphers  on;
-
         location / {
-            proxy_pass http://127.0.0.1:8848;  #此处二级域名可以随意填写
-            proxy_set_header Host $host:8848;  #这个是重点，$host 指的是与server_name相同的域名
+            proxy_pass http://127.0.0.1:8848;
+            proxy_set_header Host $host:8848;  #$host指与server_name相同
             proxy_redirect off;
             client_max_body_size 10m;
             client_body_buffer_size 128k;
@@ -141,21 +130,17 @@ acme.sh --installcert  -d  <domain>.com   \
             proxy_busy_buffers_size 256k;
             proxy_temp_file_write_size 256k;
         }
-
         #解决配置反向代理后js css文件无法加载问题
         location ~ .*\.(js|css)$ {
-            proxy_pass http://127.0.0.1:8848; #此处二级域名可以随意填写
-            proxy_set_header Host $host:8848; #这个是重点，$host 指的是与server_name相同的域名
+            proxy_pass http://127.0.0.1:8848;
+            proxy_set_header Host $host:8848; #$host指与server_name相同
         }
-
         error_page   500 502 503 504  /50x.html;
         location = /50x.html {
             root   html;
         }
     }
 ```
-
-
 + [ngrok使用https进行访问](https://blog.csdn.net/Kenon_Lin/article/details/81072656)
 + [ngrok+nginx反向代理配置](https://www.jianshu.com/p/cd937631a88b)
 + [快速签发 Let's Encrypt 证书指南](https://www.cnblogs.com/esofar/p/9291685.html)

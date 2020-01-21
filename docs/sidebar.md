@@ -22,4 +22,4 @@
 - [一次服务器调优](article/一次服务器调优.md)
 - [微信代理-agent](article/微信代理.md)
 - [搭建 ngrok](article/ngrok.md)
-- [JAVA 最佳实践](article/java最佳实践.md)
+- [JAVA 最佳实践](article/Java最佳实践.md)

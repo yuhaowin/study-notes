@@ -11,7 +11,7 @@ ngrok是一个反向代理的小工具，可以直接从官网下载ngrok客户�
 
 ### 安装步骤
 1. 安装git（非必须，安装是为了方便下载ngrok源码） 
-```shell	
+```shell
 yum install git
 ```
 2. 安装golang （ngrok是由go语言开发）
@@ -43,18 +43,16 @@ cp rootCA.pem assets/client/tls/ngrokroot.crt
 cp device.crt assets/server/tls/snakeoil.crt
 cp device.key assets/server/tls/snakeoil.key
 ```
-6. 编译服务端和客户端
+6. 编译服务端和客户端到 `ngrok/bin` 下
 ```shell
 #编译64位linux服务端
-GOOS=linux GOARCH=amd64 make release-server
+GOOS=linux   GOARCH=amd64 make release-server
 #编译64位windows服务端
 GOOS=windows GOARCH=amd64 make release-server
-	
 #编译64位mac客户端
-GOOS=darwin GOARCH=amd64 make release-client
+GOOS=darwin  GOARCH=amd64 make release-client
 #编译64位windows客户端
 GOOS=windows GOARCH=amd64 make release-client
-在ngrok/bin目录下可以查看到生成的客户端和服务端
 ```
 7. 启动服务端
 ```shell
@@ -66,7 +64,6 @@ GOOS=windows GOARCH=amd64 make release-client
 #先编写ngrok.cfg的配置文件，内容如下
 server_addr: "yuhaowin.com:4443" //填写在制作证书是配置的域名，端口填写启动服务端tunnel端口，这里是4443，
 trust_host_root_certs: false //如果有可用证书 true 自己制作证书 false
-	
 #Windows启动
 ngrok.exe -subdomain=test -config=ngrok.cfg    8080
 #Mac os启动

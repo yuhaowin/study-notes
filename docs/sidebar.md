@@ -1,25 +1,27 @@
-- [HOME](homepage)
-- **Java 核心知识**
-- [Java 基础](notes/Java基础.md)
-- [Java 容器](notes/Java容器.md)
-- [Java 并发](notes/Java并发.md)
-- [Java 虚拟机](notes/Java虚拟机.md)
-- [Java I/O](notes/JavaIO.md)
-- **面向对象**
-- [常用设计模式](notes/设计模式.md)
-- [面向对象思想](notes/面向对象思想.md)
-- **数据库**
-- [MySQL](notes/MySQL.md)
-- [Redis](notes/Redis.md)
-- **服务器**
-- [Nginx 服务器](notes/Nginx.md)
 - **工具**
-- [Git 教程](notes/Git.md)
-- [Gradle 教程](notes/Gradle.md)
-- [Docker 教程](notes/docker.md)
-- [Kafka 教程](notes/kafka.md)
+- [Gradle.md](/content/tools/Gradle.md)
+- [Git.md](/content/tools/Git.md)
+- [docker.md](/content/tools/docker.md)
+- **其他**
+- [kafka.md](/content/other/kafka.md)
+- [http.md](/content/other/http.md)
+- [设计模式.md](/content/other/设计模式.md)
+- [Nginx.md](/content/other/Nginx.md)
+- **Java 核心知识**
+- [JavaIO.md](/content/java/JavaIO.md)
+- [Java并发.md](/content/java/Java并发.md)
+- [JVM.md](/content/java/JVM.md)
+- [Java垃圾回收.md](/content/java/Java垃圾回收.md)
+- [Java基础.md](/content/java/Java基础.md)
+- [Java容器.md](/content/java/Java容器.md)
+- [lambda.md](/content/java/lambda.md)
+- **数据库**
+- [Redis.md](/content/db/Redis.md)
+- [MySQL.md](/content/db/MySQL.md)
 - **文章**
-- [一次服务器调优](article/一次服务器调优.md)
-- [微信代理-agent](article/微信代理.md)
-- [搭建 ngrok](article/ngrok.md)
-- [JAVA 最佳实践](article/Java最佳实践.md)
+- [面试记录.md](/content/article/面试记录.md)
+- [面向对象思想.md](/content/article/面向对象思想.md)
+- [Java最佳实践.md](/content/article/Java最佳实践.md)
+- [微信代理.md](/content/article/微信代理.md)
+- [一次服务器调优.md](/content/article/一次服务器调优.md)
+- [ngrok.md](/content/article/ngrok.md)

@@ -6,31 +6,50 @@
 
 #### JVM 参数类型
 
- + 标准参数 所有 JVM 实现均有 如：java -version java -server
+ + 标准参数 所有 JVM 实现均有 如：java -version java -server java -client
 
  + -X 参数 如：-Xint -Xcomp -Xmixed
 
  + -XX 参数非标准化参数
 
-    + boolean 类型 表示启用/禁用 参数 
-
-      -XX:[+-]<name>
+    + boolean 类型 表示启用/禁用参数 
 
       -XX:[+]UseG1GC 启用 G1GC
+
+      -XX:[-]UseCompressedClassPointers 禁用压缩类空间
       
     + key - value 类型
-    
-      -XX:<name>=<value>
     
       -XX:GCTimeRatio=19
     
       -Xms -Xmx -Xss 都是 -XX 参数
     
-      -Xms = -XX:InitialHeapSize 最小内存 初始化的堆的大小
+      -Xms = -XX:InitialHeapSize 最小内存初始化的堆的大小
     
       -Xmx = -XX:MaxHeapSize 最大内存
     
       -Xss = -XX:ThreadStackSize 一个线程堆栈的大小
+    
+      
+      
+      ![144949](http://image.yuhaowin.com/2020/03/11/144949.jpg)
+
+![145047](http://image.yuhaowin.com/2020/03/11/145047.jpg)
+
+![145121](http://image.yuhaowin.com/2020/03/11/145121.jpg)
+
+![LGTD2HmZkc7K3UB](https://i.loli.net/2020/03/11/LGTD2HmZkc7K3UB.jpg)
+
+![LKc5Rbr9H31xQXM](https://i.loli.net/2020/03/11/LKc5Rbr9H31xQXM.jpg)
+
+![N5z2hIu1XawgQx8](https://i.loli.net/2020/03/11/N5z2hIu1XawgQx8.jpg)
+
+![XkOQENGMCUWTm7f](https://i.loli.net/2020/03/11/XkOQENGMCUWTm7f.jpg)
+
+![fBdRT5tKIglMixe](https://i.loli.net/2020/03/11/fBdRT5tKIglMixe.jpg)
+
+![vuyi8exXbtWwLjE](https://i.loli.net/2020/03/11/vuyi8exXbtWwLjE.jpg)
+
 #### 查看 JVM 运行是的参数
 
 -XX:+PrintFlagsFinal
@@ -55,7 +74,7 @@ jinfo -flag 参数名 pid
 
 
 
-
+JVM 64bit 没有 client 模式 只有 server 模式
 
 
 
@@ -168,5 +187,26 @@ Java8 中默认一个虚拟机栈的空间大小是 1MB 如果存放的栈帧太
 
 [JVM 内存结构快问快答](https://juejin.im/post/5e51f2eae51d4526e03f9da8)
 
+
+
 https://heaphero.io/
 
+https://gceasy.io/
+
+https://fastthread.io/
+
+
+
+https://docs.oracle.com/javase/8/docs/technotes/tools/unix/index.html
+
+
+
+Hotspot UseMaximumCompactionOnSystemGC
+
+Openjdk UseParallelGC
+
+https://blog.csdn.net/wd2014610/article/details/81664062
+
+
+
+https://www.jianshu.com/p/f55ddf1e9839

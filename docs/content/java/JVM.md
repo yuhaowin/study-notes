@@ -48,7 +48,15 @@
 
 -XX:SurvivorRatio
 
+-XX:MatespaceSize
+
+-XX:MaxMatespaceSize
+
 ****
+
+-XX:+UseCompressedClassPointers
+
+-XX:CompressedClassSpaceSize
 
 -XX:InitialCodeCacheSize
 
@@ -96,9 +104,14 @@
 
 
 
-jps 类似 Linux 的 ps 只查看 java 进程
+  #### JDK 常用命令行工具
 
-jinfo 
++ jps 类似 Linux 的 ps 只查看 java 进程
++ jinfo
++ jstat
++ jstack
+
+
 
 jinfo -flag 参数名 pid
 
@@ -106,9 +119,25 @@ jinfo -flag 参数名 pid
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 JVM 64bit 没有 client 模式 只有 server 模式
-
-
 
 Java 虚拟机是一个抽象的机器，是一个虚拟机实现的规范，有很多根据规范实现的具体的虚拟机，如 Oracle 的 Hotspot。
 
@@ -132,6 +161,10 @@ Java 虚拟机希望尽可能多的类型检查能在程序运行之前完成，
 
 
 ![195922](http://image.yuhaowin.com/2020/03/10/195922.jpg)
+
+
+
+![32cwSxKOiFekTuD](https://i.loli.net/2020/03/14/32cwSxKOiFekTuD.png)
 
 虚拟机定义的运行时数据区，就是我们常说的内存结构。
 
@@ -174,7 +207,7 @@ Java 虚拟机希望尽可能多的类型检查能在程序运行之前完成，
 
 ##### JAVA 虚拟机栈 （线程私有）
 
-每一个虚拟机线程都有自己私有的虚拟机栈，这个虚拟机栈和线程是同时创建的，用于存储栈帧，就是用于存储局部变量与一些过程结果的地方。
+每一个虚拟机线程都有自己私有的虚拟机栈，这个虚拟机栈和线程是同时创建的，用于存储栈帧，就是用于存储局部变量与一些过程结果的地方。每一个方法在执行的时候都会创建一个栈帧，一个方法从开始调用到执行结束的过程，就对应一个栈帧从入栈到出栈的过程。
 
 可能有两个异常
 

@@ -1,4 +1,4 @@
-### 为什么要引入 lambda 表达式
+### 为什么要引入 Lambda 表达式
 
 
 
@@ -9,8 +9,6 @@
 + 将业务逻辑封装为一个实体类，方法接受实体类作为参数，在方法内部调用实体类处理业务逻辑
 + 调用方法时不在传入创建的实体类，而是传入匿名类。
 + 是 Lambda 表达式代替匿名类，从而实现业务逻辑的参数化传递。
-
-
 
 ```java
 /**
@@ -24,7 +22,6 @@ public interface SkuPredicate {
      */
     boolean test(Sku sku);
 }
-
 /**
  * 对Sku的总价是否超出2000作为判断标准
  */
@@ -42,7 +39,6 @@ public class SkuTotalPricePredicate implements SkuPredicate {
     /**
      * Version 4.0.0
      * 根据不同的Sku判断标准，对Sku列表进行过滤
-     *
      * @param cartSkuList
      * @param predicate   - 不同的Sku判断标准策略
      * @return

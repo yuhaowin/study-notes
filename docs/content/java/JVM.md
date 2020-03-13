@@ -10,7 +10,7 @@
 
  + -X 参数 如：-Xint -Xcomp -Xmixed
 
- + -XX 参数非标准化参数
+ + -XX 非标准化参数
 
     + boolean 类型 表示启用/禁用参数 
 
@@ -30,23 +30,57 @@
     
       -Xss = -XX:ThreadStackSize 一个线程堆栈的大小
     
-      
-      
-      ![144949](http://image.yuhaowin.com/2020/03/11/144949.jpg)
+#### JVM 常见参数
 
-![145047](http://image.yuhaowin.com/2020/03/11/145047.jpg)
+-Xms
 
-![145121](http://image.yuhaowin.com/2020/03/11/145121.jpg)
+-Xmx
 
-![LGTD2HmZkc7K3UB](https://i.loli.net/2020/03/11/LGTD2HmZkc7K3UB.jpg)
+-Xss
 
-![LKc5Rbr9H31xQXM](https://i.loli.net/2020/03/11/LKc5Rbr9H31xQXM.jpg)
+****
 
-![N5z2hIu1XawgQx8](https://i.loli.net/2020/03/11/N5z2hIu1XawgQx8.jpg)
+-XX:NewSize
 
-![XkOQENGMCUWTm7f](https://i.loli.net/2020/03/11/XkOQENGMCUWTm7f.jpg)
+-XX:MaxNewSize
 
-![fBdRT5tKIglMixe](https://i.loli.net/2020/03/11/fBdRT5tKIglMixe.jpg)
+-XX:NewRatio
+
+-XX:SurvivorRatio
+
+****
+
+-XX:InitialCodeCacheSize
+
+-XX:ReservedCodeCacheSize
+
+#### 垃圾收集器分类
+
++ 串行 Serial：Serial、Serial Old
++ 并行 Parallel：Parallel Scavenge、Parallel Old 吞吐量
++ 并发 Concurrent：CMS G1 停顿时间
+
+#### 并行 VS 并发
+
++ 并行：指的是多条垃圾收集线程 `并行` 工作，在进行垃圾回收时，用户的线程是处于等待状态。
++ 并发：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户线程在继续运行。而垃圾收集线程运行在另一个CPU上。
+
+#### 吞吐量 VS 停顿时间
+
++ 吞吐量：吞吐量就是 **CPU用于运行用户代码的时间** 与 **CPU总消耗时间** 的比值，即 **吞吐量 = 运行用户代码时间 /（运行用户代码时间 + 垃圾收集时间）。**  假设虚拟机总共运行了100分钟，其中垃圾收集花掉1分钟，那吞吐量就是99%。
++ 停顿时间：垃圾回收器在做垃圾回收时中断应用执行的时间。
+
+#### 并行收集器
+
+启用：-XX:+UseParallelGC  -XX:+UseParallelOldGC
+
+#### 并发收集器
+
+启用：
+
++ CMS：-XX:+UseConcMarkSweepGC   -XX:+UseParNewGC
+
++ G1：-XX:+UseG1GC
 
 ![vuyi8exXbtWwLjE](https://i.loli.net/2020/03/11/vuyi8exXbtWwLjE.jpg)
 
@@ -63,8 +97,6 @@
 
 
 jps 类似 Linux 的 ps 只查看 java 进程
-
-
 
 jinfo 
 
@@ -177,6 +209,8 @@ Java8 中默认一个虚拟机栈的空间大小是 1MB 如果存放的栈帧太
 |  本地方法栈   |                                                          |                                                              |                 |    OOME、SOE     |
 |  程序计数器   |               线程私有, 生命周期与线程相同               |                    大致为字节码行号指示器                    |        -        |        -         |
 
+
+
 [JVM 内存结构&内存模型](https://juejin.im/post/5d7d9204f265da03f33382dd)
 
 [Oracle JVM 规范](https://docs.oracle.com/javase/specs/index.html)
@@ -187,26 +221,26 @@ Java8 中默认一个虚拟机栈的空间大小是 1MB 如果存放的栈帧太
 
 [JVM 内存结构快问快答](https://juejin.im/post/5e51f2eae51d4526e03f9da8)
 
+https://crowhawk.github.io/2017/08/15/jvm_3/
 
+****
 
-https://heaphero.io/
+[在线堆分析](https://heaphero.io/)
 
-https://gceasy.io/
+[在线栈分析](https://fastthread.io/)
 
-https://fastthread.io/
+[在线GC日志分析](https://gceasy.io/)
 
-
+****
 
 https://docs.oracle.com/javase/8/docs/technotes/tools/unix/index.html
+
+https://blog.csdn.net/wd2014610/article/details/81664062
+
+https://www.jianshu.com/p/f55ddf1e9839
 
 
 
 Hotspot UseMaximumCompactionOnSystemGC
 
 Openjdk UseParallelGC
-
-https://blog.csdn.net/wd2014610/article/details/81664062
-
-
-
-https://www.jianshu.com/p/f55ddf1e9839

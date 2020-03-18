@@ -1,160 +1,17 @@
-+ 生产环境内存溢出如何处理？
-+ 生产环境服务器该分配多少内存合适？
-+ 如何对垃圾回收器的性能进行调优？性能指标有哪些？
-+ 生产环境 cpu 负载飙高如何处理？
-+ 生产环境该给应用分配多少线程合适？
+### JVM 规范
 
-#### JVM 参数类型
-
- + 标准参数 所有 JVM 实现均有 如：java -version java -server java -client
-
- + -X 参数 如：-Xint -Xcomp -Xmixed
-
- + -XX 非标准化参数
-
-    + boolean 类型 表示启用/禁用参数 
-
-      -XX:[+]UseG1GC 启用 G1GC
-
-      -XX:[-]UseCompressedClassPointers 禁用压缩类空间
-      
-    + key - value 类型
-    
-      -XX:GCTimeRatio=19
-    
-      -Xms -Xmx -Xss 都是 -XX 参数
-    
-      -Xms = -XX:InitialHeapSize 最小内存初始化的堆的大小
-    
-      -Xmx = -XX:MaxHeapSize 最大内存
-    
-      -Xss = -XX:ThreadStackSize 一个线程堆栈的大小
-    
-#### JVM 常见参数
-
--Xms
-
--Xmx
-
--Xss
-
-****
-
--XX:NewSize
-
--XX:MaxNewSize
-
--XX:NewRatio
-
--XX:SurvivorRatio
-
--XX:MatespaceSize
-
--XX:MaxMatespaceSize
-
-****
-
--XX:+UseCompressedClassPointers
-
--XX:CompressedClassSpaceSize
-
--XX:InitialCodeCacheSize
-
--XX:ReservedCodeCacheSize
-
-#### 垃圾收集器分类
-
-+ 串行 Serial：Serial、Serial Old
-+ 并行 Parallel：Parallel Scavenge、Parallel Old 吞吐量
-+ 并发 Concurrent：CMS G1 停顿时间
-
-#### 并行 VS 并发
-
-+ 并行：指的是多条垃圾收集线程 `并行` 工作，在进行垃圾回收时，用户的线程是处于等待状态。
-+ 并发：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户线程在继续运行。而垃圾收集线程运行在另一个CPU上。
-
-#### 吞吐量 VS 停顿时间
-
-+ 吞吐量：吞吐量就是 **CPU用于运行用户代码的时间** 与 **CPU总消耗时间** 的比值，即 **吞吐量 = 运行用户代码时间 /（运行用户代码时间 + 垃圾收集时间）。**  假设虚拟机总共运行了100分钟，其中垃圾收集花掉1分钟，那吞吐量就是99%。
-+ 停顿时间：垃圾回收器在做垃圾回收时中断应用执行的时间。
-
-#### 并行收集器
-
-启用：-XX:+UseParallelGC  -XX:+UseParallelOldGC
-
-#### 并发收集器
-
-启用：
-
-+ CMS：-XX:+UseConcMarkSweepGC   -XX:+UseParNewGC
-
-+ G1：-XX:+UseG1GC
-
-![vuyi8exXbtWwLjE](https://i.loli.net/2020/03/11/vuyi8exXbtWwLjE.jpg)
-
-#### 查看 JVM 运行是的参数
-
--XX:+PrintFlagsFinal
-
--XX:+PrintFlagsInitial
-
-结果中 = 表示默认值 := 表示修改后的值
-
-![010251](http://image.yuhaowin.com/2020/03/08/010251.jpg)
-
-
-
-  #### JDK 常用命令行工具
-
-+ jps 类似 Linux 的 ps 只查看 java 进程
-+ jinfo
-+ jstat
-+ jstack
-
-
-
-jinfo -flag 参数名 pid
-
-![010821](http://image.yuhaowin.com/2020/03/08/010821.jpg)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-JVM 64bit 没有 client 模式 只有 server 模式
-
-Java 虚拟机是一个抽象的机器，是一个虚拟机实现的规范，有很多根据规范实现的具体的虚拟机，如 Oracle 的 Hotspot。
-
-JVM规范是一种高度抽象行为的描述，而不是具体虚拟机的实现。
+> JVM 规范是一种高度抽象行为的描述，而不是具体虚拟机的实现，有很多根据规范实现的具体的虚拟机，如 Oracle 的 Hotspot。Java 虚拟机是 Java 语言实现硬件无关、操作系统无关的关键部分。Java 虚拟机和java 语言没有必然的联系，它只是与特定的二进制文件 class 文件有关联。class 文件是一种能够被 Java 虚拟机所执行的二进制文件，常常以文件的形式存储。
 
 Animorphic Smalltalk 虚拟机 -> Hotspot 虚拟机
 
-Java 虚拟机是Java语言实现硬件无关、操作系统无关的关键部分。
+JVM 64bit 没有 client 模式 只有 server 模式
 
-Java 虚拟机和java 语言没有必然的联系，它只是与特定的二进制文件class文件有关联。
-
-class 文件是一种能够被java 虚拟机所执行的二进制文件，常常以文件的形式存储。
-
-jvm 的数据类型也分为两种：基本类型、引用类型。
+JVM 的数据类型也分为两种：基本类型、引用类型。
 
 Java 虚拟机希望尽可能多的类型检查能在程序运行之前完成，换句话说，编译器应当在编译
 期间尽最大努力完成可能的类型检查，使得虚拟机在运行期间无需进行这些操作。
+
+#### 运行时数据区
 
 >Java 虚拟机定义了若干种程序运行期间会使用到的运行时数据区，其中有一些会随着虚拟机启动而创建，随着虚拟机退出而销毁。另外一些则是与线程一一对应的，这些与线程对应的数据区域会随着线程开始和结束而创建和销毁。
 
@@ -231,8 +88,6 @@ Java8 中默认一个虚拟机栈的空间大小是 1MB 如果存放的栈帧太
 
 >Java 虚拟机可以支持多条线程同时执行(可参考《Java 语言规范》第 17 章)，每一条 Java 虚拟机线程都有自己的PC(Program Counter)寄存器。在任意时刻，一条Java虚拟机线程 只会执行一个方法的代码，这个正在被线程执行的方法称为该线程的当前方法(Current Method)。如果这个方法不是 native 的，那 PC 寄存器就保存 Java 虚拟机正在执行的 字节码指令的地址，如果该方法是 native 的，那 PC 寄存器的值是 undefined。
 
-
-
 |     名称      |                           特征                           |                             作用                             |    配置参数     |     可能异常     |
 | :-----------: | :------------------------------------------------------: | :----------------------------------------------------------: | :-------------: | :--------------: |
 |    方法区     | 线程共享，生命周期与虚拟机相同，可以不使用连续的内存地址 | 存储已被虚拟机加载的类信息、常量、静态变量、即时编译器编译后的代码等数据 | XX:PermSize=16M | OutOfMemoryError |
@@ -255,6 +110,130 @@ Java8 中默认一个虚拟机栈的空间大小是 1MB 如果存放的栈帧太
 [JVM 内存结构快问快答](https://juejin.im/post/5e51f2eae51d4526e03f9da8)
 
 https://crowhawk.github.io/2017/08/15/jvm_3/
+
+
+
+
+
+
++ 生产环境内存溢出如何处理？
++ 生产环境服务器该分配多少内存合适？
++ 如何对垃圾回收器的性能进行调优？性能指标有哪些？
++ 生产环境 cpu 负载飙高如何处理？
++ 生产环境该给应用分配多少线程合适？
+
+#### JVM 参数类型
+
+ + 标准参数 所有 JVM 实现均有 如：java -version java -server java -client
+
+ + -X 参数 如：-Xint -Xcomp -Xmixed
+
+ + -XX 非标准化参数
+
+    + boolean 类型 表示启用/禁用参数 
+
+      -XX:[+]UseG1GC 启用 G1GC
+
+      -XX:[-]UseCompressedClassPointers 禁用压缩类空间
+      
+    + key - value 类型
+    
+      -XX:GCTimeRatio=19
+    
+      -Xms -Xmx -Xss 都是 -XX 参数
+    
+      -Xms = -XX:InitialHeapSize 最小内存初始化的堆的大小
+    
+      -Xmx = -XX:MaxHeapSize 最大内存
+    
+      -Xss = -XX:ThreadStackSize 一个线程堆栈的大小
+    
+#### JVM 常见参数
+
+-Xms
+
+-Xmx
+
+-Xss
+
+****
+
+-XX:NewSize
+
+-XX:MaxNewSize
+
+-XX:NewRatio
+
+-XX:SurvivorRatio
+
+-XX:MatespaceSize
+
+-XX:MaxMatespaceSize
+
+****
+
+-XX:+UseCompressedClassPointers
+
+-XX:CompressedClassSpaceSize
+
+-XX:InitialCodeCacheSize
+
+-XX:ReservedCodeCacheSize
+
+#### 垃圾收集器分类
+
++ 串行 Serial：Serial、Serial Old
++ 并行 Parallel：ParNew(Serial 的多线程版)、Parallel Scavenge、Parallel Old 吞吐量
++ 并发 Concurrent：CMS G1 停顿时间
+
+#### 并行 VS 并发
+
++ 并行：指的是多条垃圾收集线程 `并行` 工作，在进行垃圾回收时，用户的线程是处于等待状态。
++ 并发：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户线程在继续运行。而垃圾收集线程运行在另一个CPU上。
+
+#### 吞吐量 VS 停顿时间
+
++ 吞吐量：吞吐量就是 **CPU用于运行用户代码的时间** 与 **CPU总消耗时间** 的比值，即 **吞吐量 = 运行用户代码时间 /（运行用户代码时间 + 垃圾收集时间）。**  假设虚拟机总共运行了100分钟，其中垃圾收集花掉1分钟，那吞吐量就是99%。
++ 停顿时间：垃圾回收器在做垃圾回收时中断应用执行的时间。
+
+#### 并行收集器
+
+启用：-XX:+UseParallelGC  -XX:+UseParallelOldGC
+
+#### 并发收集器
+
+启用：
+
++ CMS：-XX:+UseConcMarkSweepGC   -XX:+UseParNewGC
+
++ G1：-XX:+UseG1GC
+
+![vuyi8exXbtWwLjE](https://i.loli.net/2020/03/11/vuyi8exXbtWwLjE.jpg)
+
+#### 查看 JVM 运行是的参数
+
+-XX:+PrintFlagsFinal
+
+-XX:+PrintFlagsInitial
+
+结果中 = 表示默认值 := 表示修改后的值
+
+![010251](http://image.yuhaowin.com/2020/03/08/010251.jpg)
+
+
+
+  #### JDK 常用命令行工具
+
++ jps 类似 Linux 的 ps 只查看 java 进程
++ jinfo
++ jstat
++ jstack
+
+jinfo -flag 参数名 pid
+
+![010821](http://image.yuhaowin.com/2020/03/08/010821.jpg)
+
+
 
 ****
 

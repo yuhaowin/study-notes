@@ -43,7 +43,7 @@ cp rootCA.pem assets/client/tls/ngrokroot.crt
 cp device.crt assets/server/tls/snakeoil.crt
 cp device.key assets/server/tls/snakeoil.key
 ```
-6. 编译服务端和客户端到 `ngrok/bin` 下
+6. 编译服务端和客户端到 `ngrok/bin` 下
 ```shell
 #编译64位linux服务端
 GOOS=linux   GOARCH=amd64 make release-server
@@ -138,6 +138,7 @@ acme.sh --installcert  -d  <domain>.com   \
         }
     }
 ```
-+ [ngrok使用https进行访问](https://blog.csdn.net/Kenon_Lin/article/details/81072656)
-+ [ngrok+nginx反向代理配置](https://www.jianshu.com/p/cd937631a88b)
++ [Ngrok 使用 HTTPS 进行访问](https://blog.csdn.net/Kenon_Lin/article/details/81072656)
++ [Ngrok + Nginx 反向代理配置](https://www.jianshu.com/p/cd937631a88b)
 + [快速签发 Let's Encrypt 证书指南](https://www.cnblogs.com/esofar/p/9291685.html)
+
